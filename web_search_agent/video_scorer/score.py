@@ -1,3 +1,4 @@
+import base64
 import math
 import os
 from collections import Counter
@@ -39,10 +40,16 @@ BAND_THRESHOLDS = {
 }
 
 
+class EvidenceItem(BaseModel):
+    timestamp: str
+    observation: str
+    frame_b64: str | None = None
+
+
 class CriterionResult(BaseModel):
     criterion_id: str
     score: int
-    evidence: str | None = None
+    evidence: list[EvidenceItem] = []
     fix: str | None = None
 
 
@@ -52,7 +59,7 @@ class DimensionResult(BaseModel):
     weight: float
     raw_score: int
     pct: float
-    evidence: str | None = None
+    evidence: list[EvidenceItem] = []
     fix: str | None = None
 
 
@@ -65,6 +72,12 @@ class AdScore(BaseModel):
     band: str
     dimensions: list[DimensionResult]
     top_fixes: list[str]
+
+
+def _ts_to_seconds(ts: str) -> int:
+    """Parse 'MM:SS' timestamp to integer seconds."""
+    parts = ts.split(":")
+    return int(parts[0]) * 60 + int(parts[1]) if len(parts) == 2 else int(parts[0])
 
 
 def _sample_frames(frames: list[bytes], max_frames: int) -> list[bytes]:
@@ -80,6 +93,21 @@ def _band(score: float) -> str:
         if score >= threshold:
             return band_name
     return "poor"
+
+
+def _merge_evidence_from_votes(mode_results: list, tolerance: int = 2) -> list:
+    """Merge evidence from all mode-score results, deduplicating timestamps within ±tolerance seconds."""
+    seen_buckets: set[int] = set()
+    merged = []
+    for r in mode_results:
+        for ev in r.evidence:
+            sec = _ts_to_seconds(ev.timestamp)
+            bucket = (sec // tolerance) * tolerance
+            if bucket not in seen_buckets:
+                seen_buckets.add(bucket)
+                merged.append(ev)
+    merged.sort(key=lambda e: _ts_to_seconds(e.timestamp))
+    return merged
 
 
 def score_criterion(video: VideoData, criterion_id: str = "YT-A1", votes: int = 1, ad_type: str = "brand") -> CriterionResult:
@@ -132,9 +160,17 @@ def score_criterion(video: VideoData, criterion_id: str = "YT-A1", votes: int = 
             ),
         )
         result = CriterionResult.model_validate_json(response.text)
+        assert result.evidence, f"Model returned score={result.score} without evidence for {criterion_id}"
         if result.score < 2:
-            assert result.evidence, f"Model returned score={result.score} without evidence for {criterion_id}"
             assert result.fix, f"Model returned score={result.score} without fix for {criterion_id}"
+        # Enrich each evidence item with the actual video frame
+        for ev in result.evidence:
+            try:
+                idx = _ts_to_seconds(ev.timestamp)
+                if 0 <= idx < len(video.frames):
+                    ev.frame_b64 = base64.b64encode(video.frames[idx]).decode()
+            except (ValueError, IndexError):
+                pass
         return result
 
     if votes == 1:
@@ -145,7 +181,14 @@ def score_criterion(video: VideoData, criterion_id: str = "YT-A1", votes: int = 
     all_results = [_call_once() for _ in range(votes)]
     scores = [r.score for r in all_results]
     mode_score = Counter(scores).most_common(1)[0][0]
-    return next(r for r in all_results if r.score == mode_score)
+    mode_results = [r for r in all_results if r.score == mode_score]
+    base = mode_results[0]
+    return CriterionResult(
+        criterion_id=base.criterion_id,
+        score=base.score,
+        evidence=_merge_evidence_from_votes(mode_results),
+        fix=base.fix,
+    )
 
 
 def aggregate_scores(

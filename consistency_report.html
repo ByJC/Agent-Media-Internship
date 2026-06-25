@@ -1,0 +1,1372 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ABCD Consistency Report</title>
+<style>
+  :root {
+    --ground: #F5F4F0; --surface: #fff; --text: #161514;
+    --muted: #6B6660; --border: #DDDBD6; --accent: #1B44CE;
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: system-ui, -apple-system, sans-serif; background: var(--ground);
+         color: var(--text); font-size: 13px; line-height: 1.5; padding: 32px 24px; }
+  .wrap { max-width: 1200px; margin: 0 auto; }
+  h1 { font-size: 22px; font-weight: 800; margin-bottom: 4px; }
+  .subtitle { font-size: 13px; color: var(--muted); margin-bottom: 32px; }
+  h2 { font-size: 11px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase;
+        color: var(--muted); margin: 32px 0 12px; }
+  .table-wrap { overflow-x: auto; }
+  table { border-collapse: collapse; width: 100%; background: var(--surface);
+           border: 1px solid var(--border); border-radius: 6px; overflow: hidden; }
+  th { background: #161514; color: #F5F4F0; font-size: 11px; font-weight: 700;
+        letter-spacing: .06em; text-transform: uppercase; padding: 10px 12px;
+        text-align: left; white-space: nowrap; }
+  td { padding: 8px 12px; border-bottom: 1px solid var(--border); vertical-align: top; }
+  .muted { color: var(--muted); }
+  .video-cell { font-weight: 700; font-size: 14px; vertical-align: middle;
+                 border-right: 2px solid var(--border); white-space: nowrap; }
+  .video-url { font-family: monospace; font-size: 10px; color: var(--accent);
+                font-weight: 400; margin-top: 2px; }
+  .criterion-cell { font-weight: 600; white-space: nowrap; }
+  .overall-row td { background: #F9F8F5; font-weight: 600; color: var(--muted); font-size: 12px; }
+  .spacer-row td { height: 8px; background: var(--ground); border: none; padding: 0; }
+  .ts-chip { display: inline-block; background: #EBF0FD; color: var(--accent);
+              font-family: monospace; font-size: 11px; font-weight: 600;
+              padding: 1px 6px; border-radius: 3px; margin: 1px 2px 1px 0; white-space: nowrap; }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <h1>ABCD Consistency Report</h1>
+  <p class="subtitle">5 videos × 3 runs — brand rubric — score stability + evidence stability</p>
+
+  <h2>Main Results</h2>
+  <div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Video</th>
+        <th>Criterion</th>
+        <th>R1 Score</th><th>R2 Score</th><th>R3 Score</th>
+        <th>Score ✓</th>
+        <th>R1 Timestamps</th><th>R2 Timestamps</th><th>R3 Timestamps</th>
+        <th>Evidence ✓</th>
+      </tr>
+    </thead>
+    <tbody>
+            <tr>
+                <td rowspan="4" class="video-cell">V1<div class="video-url">oQNhp46Y0Fg</div></td>
+                <td class="criterion-cell">A-Attention</td>
+                <td style="color:#15803D;font-weight:700;text-align:center">2</td>
+                <td style="color:#15803D;font-weight:700;text-align:center">2</td>
+                <td style="color:#15803D;font-weight:700;text-align:center">2</td>
+                <td style="background:#F0FDF4;text-align:center">✅</td>
+                <td><span class="ts-chip">00:00</span><span class="ts-chip">00:02</span><span class="ts-chip">00:04</span></td>
+                <td><span class="ts-chip">00:00</span><span class="ts-chip">00:02</span><span class="ts-chip">00:04</span></td>
+                <td><span class="ts-chip">00:00</span><span class="ts-chip">00:02</span><span class="ts-chip">00:04</span></td>
+                <td style="background:#F0FDF4;text-align:center">✅</td>
+            </tr>
+            <tr>
+                
+                <td class="criterion-cell">B-Branding</td>
+                <td style="color:#15803D;font-weight:700;text-align:center">2</td>
+                <td style="color:#15803D;font-weight:700;text-align:center">2</td>
+                <td style="color:#15803D;font-weight:700;text-align:center">2</td>
+                <td style="background:#F0FDF4;text-align:center">✅</td>
+                <td><span class="ts-chip">00:00</span><span class="ts-chip">00:32</span><span class="ts-chip">00:37</span><span class="ts-chip">01:17</span></td>
+                <td><span class="ts-chip">00:00</span><span class="ts-chip">00:32</span><span class="ts-chip">00:37</span><span class="ts-chip">01:17</span></td>
+                <td><span class="ts-chip">00:00</span><span class="ts-chip">00:32</span><span class="ts-chip">00:37</span><span class="ts-chip">01:17</span></td>
+                <td style="background:#F0FDF4;text-align:center">✅</td>
+            </tr>
+            <tr>
+                
+                <td class="criterion-cell">C-Connection</td>
+                <td style="color:#B45309;font-weight:700;text-align:center">1</td>
+                <td style="color:#B45309;font-weight:700;text-align:center">1</td>
+                <td style="color:#B45309;font-weight:700;text-align:center">1</td>
+                <td style="background:#F0FDF4;text-align:center">✅</td>
+                <td><span class="ts-chip">00:03</span><span class="ts-chip">00:08</span><span class="ts-chip">00:47</span></td>
+                <td><span class="ts-chip">00:03</span><span class="ts-chip">00:08</span><span class="ts-chip">00:47</span></td>
+                <td><span class="ts-chip">00:04</span><span class="ts-chip">00:18</span><span class="ts-chip">00:36</span></td>
+                <td style="background:#FEF2F2;text-align:center">❌</td>
+            </tr>
+            <tr>
+                
+                <td class="criterion-cell">D-Direction</td>
+                <td style="color:#B45309;font-weight:700;text-align:center">1</td>
+                <td style="color:#B45309;font-weight:700;text-align:center">1</td>
+                <td style="color:#B45309;font-weight:700;text-align:center">1</td>
+                <td style="background:#F0FDF4;text-align:center">✅</td>
+                <td><span class="ts-chip">00:57</span></td>
+                <td><span class="ts-chip">00:58</span></td>
+                <td><span class="ts-chip">00:57</span></td>
+                <td style="background:#FEF2F2;text-align:center">❌</td>
+            </tr>
+        <tr class="overall-row">
+            <td class="criterion-cell muted">Overall</td>
+            <td colspan="3" style="text-align:center;font-variant-numeric:tabular-nums">
+                77.5 / 77.5 / 77.5
+            </td>
+            <td></td><td colspan="3"></td><td></td>
+        </tr>
+        <tr class="spacer-row"><td colspan="10"></td></tr>
+            <tr>
+                <td rowspan="4" class="video-cell">V2<div class="video-url">PBrYMBacnyM</div></td>
+                <td class="criterion-cell">A-Attention</td>
+                <td style="color:#B45309;font-weight:700;text-align:center">1</td>
+                <td style="color:#B45309;font-weight:700;text-align:center">1</td>
+                <td style="color:#B45309;font-weight:700;text-align:center">1</td>
+                <td style="background:#F0FDF4;text-align:center">✅</td>
+                <td><span class="ts-chip">00:00</span><span class="ts-chip">00:02</span><span class="ts-chip">00:04</span></td>
+                <td><span class="ts-chip">00:00</span><span class="ts-chip">00:02</span><span class="ts-chip">00:04</span></td>
+                <td><span class="ts-chip">00:00</span><span class="ts-chip">00:02</span><span class="ts-chip">00:04</span></td>
+                <td style="background:#F0FDF4;text-align:center">✅</td>
+            </tr>
+            <tr>
+                
+                <td class="criterion-cell">B-Branding</td>
+                <td style="color:#15803D;font-weight:700;text-align:center">2</td>
+                <td style="color:#15803D;font-weight:700;text-align:center">2</td>
+                <td style="color:#15803D;font-weight:700;text-align:center">2</td>
+                <td style="background:#F0FDF4;text-align:center">✅</td>
+                <td><span class="ts-chip">00:00</span><span class="ts-chip">00:09</span><span class="ts-chip">00:25</span><span class="ts-chip">00:26</span></td>
+                <td><span class="ts-chip">00:00</span><span class="ts-chip">00:10</span><span class="ts-chip">00:24</span></td>
+                <td><span class="ts-chip">00:00</span><span class="ts-chip">00:09</span><span class="ts-chip">00:25</span><span class="ts-chip">00:26</span></td>
+                <td style="background:#FEF2F2;text-align:center">❌</td>
+            </tr>
+            <tr>
+                
+                <td class="criterion-cell">C-Connection</td>
+                <td style="color:#15803D;font-weight:700;text-align:center">2</td>
+                <td style="color:#15803D;font-weight:700;text-align:center">2</td>
+                <td style="color:#B45309;font-weight:700;text-align:center">1</td>
+                <td style="background:#FEF2F2;text-align:center">❌</td>
+                <td><span class="ts-chip">00:00</span><span class="ts-chip">00:05</span><span class="ts-chip">00:26</span></td>
+                <td><span class="ts-chip">00:00</span><span class="ts-chip">00:05</span><span class="ts-chip">00:26</span></td>
+                <td><span class="ts-chip">00:03</span><span class="ts-chip">00:19</span><span class="ts-chip">00:21</span></td>
+                <td style="background:#FEF2F2;text-align:center">❌</td>
+            </tr>
+            <tr>
+                
+                <td class="criterion-cell">D-Direction</td>
+                <td style="color:#B45309;font-weight:700;text-align:center">1</td>
+                <td style="color:#B45309;font-weight:700;text-align:center">1</td>
+                <td style="color:#B45309;font-weight:700;text-align:center">1</td>
+                <td style="background:#F0FDF4;text-align:center">✅</td>
+                <td><span class="ts-chip">00:25</span></td>
+                <td><span class="ts-chip">00:25</span></td>
+                <td><span class="ts-chip">00:26</span></td>
+                <td style="background:#FEF2F2;text-align:center">❌</td>
+            </tr>
+        <tr class="overall-row">
+            <td class="criterion-cell muted">Overall</td>
+            <td colspan="3" style="text-align:center;font-variant-numeric:tabular-nums">
+                77.5 / 77.5 / 65.0
+            </td>
+            <td></td><td colspan="3"></td><td></td>
+        </tr>
+        <tr class="spacer-row"><td colspan="10"></td></tr>
+            <tr>
+                <td rowspan="4" class="video-cell">V3<div class="video-url">-8UPg6hyDBg</div></td>
+                <td class="criterion-cell">A-Attention</td>
+                <td style="color:#15803D;font-weight:700;text-align:center">2</td>
+                <td style="color:#15803D;font-weight:700;text-align:center">2</td>
+                <td style="color:#15803D;font-weight:700;text-align:center">2</td>
+                <td style="background:#F0FDF4;text-align:center">✅</td>
+                <td><span class="ts-chip">00:02</span><span class="ts-chip">00:04</span></td>
+                <td><span class="ts-chip">00:00</span><span class="ts-chip">00:02</span><span class="ts-chip">00:04</span></td>
+                <td><span class="ts-chip">00:02</span><span class="ts-chip">00:04</span></td>
+                <td style="background:#FEF2F2;text-align:center">❌</td>
+            </tr>
+            <tr>
+                
+                <td class="criterion-cell">B-Branding</td>
+                <td style="color:#15803D;font-weight:700;text-align:center">2</td>
+                <td style="color:#15803D;font-weight:700;text-align:center">2</td>
+                <td style="color:#15803D;font-weight:700;text-align:center">2</td>
+                <td style="background:#F0FDF4;text-align:center">✅</td>
+                <td><span class="ts-chip">00:00</span><span class="ts-chip">00:27</span><span class="ts-chip">01:00</span></td>
+                <td><span class="ts-chip">00:00</span><span class="ts-chip">00:27</span><span class="ts-chip">01:00</span></td>
+                <td><span class="ts-chip">00:00</span><span class="ts-chip">00:26</span><span class="ts-chip">00:53</span></td>
+                <td style="background:#FEF2F2;text-align:center">❌</td>
+            </tr>
+            <tr>
+                
+                <td class="criterion-cell">C-Connection</td>
+                <td style="color:#B45309;font-weight:700;text-align:center">1</td>
+                <td style="color:#B45309;font-weight:700;text-align:center">1</td>
+                <td style="color:#B45309;font-weight:700;text-align:center">1</td>
+                <td style="background:#F0FDF4;text-align:center">✅</td>
+                <td><span class="ts-chip">00:30</span><span class="ts-chip">00:32</span><span class="ts-chip">00:41</span></td>
+                <td><span class="ts-chip">00:11</span><span class="ts-chip">00:22</span><span class="ts-chip">00:33</span></td>
+                <td><span class="ts-chip">00:30</span><span class="ts-chip">00:32</span><span class="ts-chip">00:41</span></td>
+                <td style="background:#FEF2F2;text-align:center">❌</td>
+            </tr>
+            <tr>
+                
+                <td class="criterion-cell">D-Direction</td>
+                <td style="color:#B45309;font-weight:700;text-align:center">1</td>
+                <td style="color:#B45309;font-weight:700;text-align:center">1</td>
+                <td style="color:#B45309;font-weight:700;text-align:center">1</td>
+                <td style="background:#F0FDF4;text-align:center">✅</td>
+                <td><span class="ts-chip">00:29</span></td>
+                <td><span class="ts-chip">00:29</span></td>
+                <td><span class="ts-chip">00:29</span></td>
+                <td style="background:#F0FDF4;text-align:center">✅</td>
+            </tr>
+        <tr class="overall-row">
+            <td class="criterion-cell muted">Overall</td>
+            <td colspan="3" style="text-align:center;font-variant-numeric:tabular-nums">
+                77.5 / 77.5 / 77.5
+            </td>
+            <td></td><td colspan="3"></td><td></td>
+        </tr>
+        <tr class="spacer-row"><td colspan="10"></td></tr>
+            <tr>
+                <td rowspan="4" class="video-cell">V4<div class="video-url">p-_qNvWqtXU</div></td>
+                <td class="criterion-cell">A-Attention</td>
+                <td style="color:#B91C1C;font-weight:700;text-align:center">0</td>
+                <td style="color:#B91C1C;font-weight:700;text-align:center">0</td>
+                <td style="color:#B91C1C;font-weight:700;text-align:center">0</td>
+                <td style="background:#F0FDF4;text-align:center">✅</td>
+                <td><span class="ts-chip">00:00</span><span class="ts-chip">00:03</span></td>
+                <td><span class="ts-chip">00:00</span><span class="ts-chip">00:04</span></td>
+                <td><span class="ts-chip">00:00</span><span class="ts-chip">00:04</span></td>
+                <td style="background:#FEF2F2;text-align:center">❌</td>
+            </tr>
+            <tr>
+                
+                <td class="criterion-cell">B-Branding</td>
+                <td style="color:#B91C1C;font-weight:700;text-align:center">0</td>
+                <td style="color:#B91C1C;font-weight:700;text-align:center">0</td>
+                <td style="color:#B91C1C;font-weight:700;text-align:center">0</td>
+                <td style="background:#F0FDF4;text-align:center">✅</td>
+                <td><span class="ts-chip">00:14</span></td>
+                <td><span class="ts-chip">00:14</span></td>
+                <td><span class="ts-chip">00:14</span></td>
+                <td style="background:#F0FDF4;text-align:center">✅</td>
+            </tr>
+            <tr>
+                
+                <td class="criterion-cell">C-Connection</td>
+                <td style="color:#B45309;font-weight:700;text-align:center">1</td>
+                <td style="color:#B45309;font-weight:700;text-align:center">1</td>
+                <td style="color:#B45309;font-weight:700;text-align:center">1</td>
+                <td style="background:#F0FDF4;text-align:center">✅</td>
+                <td><span class="ts-chip">00:16</span><span class="ts-chip">00:18</span><span class="ts-chip">00:20</span></td>
+                <td><span class="ts-chip">00:16</span><span class="ts-chip">00:18</span><span class="ts-chip">00:20</span></td>
+                <td><span class="ts-chip">00:16</span><span class="ts-chip">00:18</span><span class="ts-chip">00:20</span></td>
+                <td style="background:#F0FDF4;text-align:center">✅</td>
+            </tr>
+            <tr>
+                
+                <td class="criterion-cell">D-Direction</td>
+                <td style="color:#B45309;font-weight:700;text-align:center">1</td>
+                <td style="color:#B45309;font-weight:700;text-align:center">1</td>
+                <td style="color:#B45309;font-weight:700;text-align:center">1</td>
+                <td style="background:#F0FDF4;text-align:center">✅</td>
+                <td><span class="ts-chip">00:29</span></td>
+                <td><span class="ts-chip">00:29</span></td>
+                <td><span class="ts-chip">00:29</span></td>
+                <td style="background:#F0FDF4;text-align:center">✅</td>
+            </tr>
+        <tr class="overall-row">
+            <td class="criterion-cell muted">Overall</td>
+            <td colspan="3" style="text-align:center;font-variant-numeric:tabular-nums">
+                22.5 / 22.5 / 22.5
+            </td>
+            <td></td><td colspan="3"></td><td></td>
+        </tr>
+        <tr class="spacer-row"><td colspan="10"></td></tr>
+            <tr>
+                <td rowspan="4" class="video-cell">V5<div class="video-url">XZerw7F7yl0</div></td>
+                <td class="criterion-cell">A-Attention</td>
+                <td style="color:#15803D;font-weight:700;text-align:center">2</td>
+                <td style="color:#15803D;font-weight:700;text-align:center">2</td>
+                <td style="color:#15803D;font-weight:700;text-align:center">2</td>
+                <td style="background:#F0FDF4;text-align:center">✅</td>
+                <td><span class="ts-chip">00:00</span><span class="ts-chip">00:02</span></td>
+                <td><span class="ts-chip">00:00</span><span class="ts-chip">00:02</span></td>
+                <td><span class="ts-chip">00:00</span><span class="ts-chip">00:02</span></td>
+                <td style="background:#F0FDF4;text-align:center">✅</td>
+            </tr>
+            <tr>
+                
+                <td class="criterion-cell">B-Branding</td>
+                <td style="color:#15803D;font-weight:700;text-align:center">2</td>
+                <td style="color:#15803D;font-weight:700;text-align:center">2</td>
+                <td style="color:#15803D;font-weight:700;text-align:center">2</td>
+                <td style="background:#F0FDF4;text-align:center">✅</td>
+                <td><span class="ts-chip">00:00</span><span class="ts-chip">00:15</span><span class="ts-chip">00:39</span></td>
+                <td><span class="ts-chip">00:00</span><span class="ts-chip">00:15</span><span class="ts-chip">00:39</span></td>
+                <td><span class="ts-chip">00:00</span><span class="ts-chip">00:15</span><span class="ts-chip">00:39</span></td>
+                <td style="background:#F0FDF4;text-align:center">✅</td>
+            </tr>
+            <tr>
+                
+                <td class="criterion-cell">C-Connection</td>
+                <td style="color:#15803D;font-weight:700;text-align:center">2</td>
+                <td style="color:#15803D;font-weight:700;text-align:center">2</td>
+                <td style="color:#15803D;font-weight:700;text-align:center">2</td>
+                <td style="background:#F0FDF4;text-align:center">✅</td>
+                <td><span class="ts-chip">00:05</span><span class="ts-chip">00:22</span><span class="ts-chip">00:33</span></td>
+                <td><span class="ts-chip">00:05</span><span class="ts-chip">00:22</span><span class="ts-chip">00:33</span></td>
+                <td><span class="ts-chip">00:05</span><span class="ts-chip">00:22</span><span class="ts-chip">00:33</span></td>
+                <td style="background:#F0FDF4;text-align:center">✅</td>
+            </tr>
+            <tr>
+                
+                <td class="criterion-cell">D-Direction</td>
+                <td style="color:#15803D;font-weight:700;text-align:center">2</td>
+                <td style="color:#15803D;font-weight:700;text-align:center">2</td>
+                <td style="color:#15803D;font-weight:700;text-align:center">2</td>
+                <td style="background:#F0FDF4;text-align:center">✅</td>
+                <td><span class="ts-chip">00:41</span></td>
+                <td><span class="ts-chip">00:41</span></td>
+                <td><span class="ts-chip">00:39</span></td>
+                <td style="background:#FEF2F2;text-align:center">❌</td>
+            </tr>
+        <tr class="overall-row">
+            <td class="criterion-cell muted">Overall</td>
+            <td colspan="3" style="text-align:center;font-variant-numeric:tabular-nums">
+                100.0 / 100.0 / 100.0
+            </td>
+            <td></td><td colspan="3"></td><td></td>
+        </tr>
+        <tr class="spacer-row"><td colspan="10"></td></tr></tbody>
+  </table>
+  </div>
+
+  <h2>Summary</h2>
+  <div class="table-wrap">
+  <table>
+    <thead>
+      <tr><th>Criterion</th><th>Score Stability</th><th>Evidence Stability</th></tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>A-Attention</td>
+            <td style="color:#15803D;font-weight:700;text-align:center">5/5 (100%)</td>
+            <td style="color:#B45309;font-weight:700;text-align:center">3/5 (60%)</td>
+        </tr>
+        <tr>
+            <td>B-Branding</td>
+            <td style="color:#15803D;font-weight:700;text-align:center">5/5 (100%)</td>
+            <td style="color:#B45309;font-weight:700;text-align:center">3/5 (60%)</td>
+        </tr>
+        <tr>
+            <td>C-Connection</td>
+            <td style="color:#B45309;font-weight:700;text-align:center">4/5 (80%)</td>
+            <td style="color:#B91C1C;font-weight:700;text-align:center">2/5 (40%)</td>
+        </tr>
+        <tr>
+            <td>D-Direction</td>
+            <td style="color:#15803D;font-weight:700;text-align:center">5/5 (100%)</td>
+            <td style="color:#B91C1C;font-weight:700;text-align:center">2/5 (40%)</td>
+        </tr></tbody>
+  </table>
+  </div>
+
+  <h2>Evidence Observations (all runs)</h2>
+  <div class="table-wrap">
+  <table>
+    <thead>
+      <tr><th>Video</th><th>Criterion</th><th>Run</th><th>Timestamp</th><th>Observation</th></tr>
+    </thead>
+    <tbody>
+                    <tr>
+                        <td class="muted">V1</td>
+                        <td>A-Attention</td>
+                        <td class="muted" style="text-align:center">Run 1</td>
+                        <td><span class="ts-chip">00:00</span></td>
+                        <td>The video opens with the Michelin logo presented over an aerial shot of a car driving on a long desert road, creating a visually striking cinematic scene.</td>
+                    </tr>
+                    <tr>
+                        <td class="muted">V1</td>
+                        <td>A-Attention</td>
+                        <td class="muted" style="text-align:center">Run 1</td>
+                        <td><span class="ts-chip">00:02</span></td>
+                        <td>A close-up shot shows a hand adjusting the volume on a car radio, indicating active use and setting a clear scene.</td>
+                    </tr>
+                    <tr>
+                        <td class="muted">V1</td>
+                        <td>A-Attention</td>
+                        <td class="muted" style="text-align:center">Run 1</td>
+                        <td><span class="ts-chip">00:04</span></td>
+                        <td>A man wearing sunglasses is seen driving the car, looking out the window, establishing a human presence and action.</td>
+                    </tr>
+                    <tr>
+                        <td class="muted">V1</td>
+                        <td>A-Attention</td>
+                        <td class="muted" style="text-align:center">Run 2</td>
+                        <td><span class="ts-chip">00:00</span></td>
+                        <td>The video opens with the Michelin logo presented over an aerial shot of a car driving on a long desert road, creating a visually striking cinematic scene.</td>
+                    </tr>
+                    <tr>
+                        <td class="muted">V1</td>
+                        <td>A-Attention</td>
+                        <td class="muted" style="text-align:center">Run 2</td>
+                        <td><span class="ts-chip">00:02</span></td>
+                        <td>A close-up shot shows a hand adjusting the volume on a car radio, indicating active use and setting a clear scene.</td>
+                    </tr>
+                    <tr>
+                        <td class="muted">V1</td>
+                        <td>A-Attention</td>
+                        <td class="muted" style="text-align:center">Run 2</td>
+                        <td><span class="ts-chip">00:04</span></td>
+                        <td>A man wearing sunglasses is seen driving the car, looking out the window, establishing a human presence and action.</td>
+                    </tr>
+                    <tr>
+                        <td class="muted">V1</td>
+                        <td>A-Attention</td>
+                        <td class="muted" style="text-align:center">Run 3</td>
+                        <td><span class="ts-chip">00:00</span></td>
+                        <td>The video opens with the Michelin logo presented over an aerial shot of a car driving on a long desert road, creating a visually striking cinematic scene.</td>
+                    </tr>
+                    <tr>
+                        <td class="muted">V1</td>
+                        <td>A-Attention</td>
+                        <td class="muted" style="text-align:center">Run 3</td>
+                        <td><span class="ts-chip">00:02</span></td>
+                        <td>A close-up shot shows a hand adjusting the volume on a car radio, indicating active use and setting a clear scene.</td>
+                    </tr>
+                    <tr>
+                        <td class="muted">V1</td>
+                        <td>A-Attention</td>
+                        <td class="muted" style="text-align:center">Run 3</td>
+                        <td><span class="ts-chip">00:04</span></td>
+                        <td>A man wearing sunglasses is seen driving the car, looking out the window, establishing a human presence and action.</td>
+                    </tr>
+                    <tr>
+                        <td class="muted">V1</td>
+                        <td>B-Branding</td>
+                        <td class="muted" style="text-align:center">Run 1</td>
+                        <td><span class="ts-chip">00:00</span></td>
+                        <td>The screen displays 'MICHELIN PRESENTS' with the Michelin Man logo.</td>
+                    </tr>
+                    <tr>
+                        <td class="muted">V1</td>
+                        <td>B-Branding</td>
+                        <td class="muted" style="text-align:center">Run 1</td>
+                        <td><span class="ts-chip">00:32</span></td>
+                        <td>A hand holds a phone displaying 'THE MICHELIN GUIDE' with the Michelin Man logo.</td>
+                    </tr>
+                    <tr>
+                        <td class="muted">V1</td>
+                        <td>B-Branding</td>
+                        <td class="muted" style="text-align:center">Run 1</td>
+                        <td><span class="ts-chip">00:37</span></td>
+                        <td>A large Michelin Man logo poster is visible on a building as a car with animated white circles on its wheels passes by.</td>
+                    </tr>
+                    <tr>
+                        <td class="muted">V1</td>
+                        <td>B-Branding</td>
+                        <td class="muted" style="text-align:center">Run 1</td>
+                        <td><span class="ts-chip">01:17</span></td>
+                        <td>The Michelin logo is displayed with the text 'MOTION FOR LIFE'.</td>
+                    </tr>
+                    <tr>
+                        <td class="muted">V1</td>
+                        <td>B-Branding</td>
+                        <td class="muted" style="text-align:center">Run 2</td>
+                        <td><span class="ts-chip">00:00</span></td>
+                        <td>The screen displays 'MICHELIN PRESENTS' with the Michelin Man logo.</td>
+                    </tr>
+                    <tr>
+                        <td class="muted">V1</td>
+                        <td>B-Branding</td>
+                        <td class="muted" style="text-align:center">Run 2</td>
+                        <td><span class="ts-chip">00:32</span></td>
+                        <td>A hand holds a phone displaying 'THE MICHELIN GUIDE' with the Michelin Man logo.</td>
+                    </tr>
+                    <tr>
+                        <td class="muted">V1</td>
+                        <td>B-Branding</td>
+                        <td class="muted" style="text-align:center">Run 2</td>
+                        <td><span class="ts-chip">00:37</span></td>
+                        <td>A large Michelin Man logo poster is visible on a building as a car with animated white circles on its wheels passes by.</td>
+                    </tr>
+                    <tr>
+                        <td class="muted">V1</td>
+                        <td>B-Branding</td>
+                        <td class="muted" style="text-align:center">Run 2</td>
+                        <td><span class="ts-chip">01:17</span></td>
+                        <td>The Michelin logo is displayed with the text 'MOTION FOR LIFE'.</td>
+                    </tr>
+                    <tr>
+                        <td class="muted">V1</td>
+                        <td>B-Branding</td>
+                        <td class="muted" style="text-align:center">Run 3</td>
+                        <td><span class="ts-chip">00:00</span></td>
+                        <td>The screen displays 'MICHELIN PRESENTS' with the Michelin Man logo.</td>
+                    </tr>
+                    <tr>
+                        <td class="muted">V1</td>
+                        <td>B-Branding</td>
+                        <td class="muted" style="text-align:center">Run 3</td>
+                        <td><span class="ts-chip">00:32</span></td>
+                        <td>A hand holds a phone displaying 'THE MICHELIN GUIDE' with the Michelin Man logo.</td>
+                    </tr>
+                    <tr>
+                        <td class="muted">V1</td>
+                        <td>B-Branding</td>
+                        <td class="muted" style="text-align:center">Run 3</td>
+                        <td><span class="ts-chip">00:37</span></td>
+                        <td>A large Michelin Man logo poster is visible on a building as a car with animated white circles on its wheels passes by.</td>
+                    </tr>
+                    <tr>
+                        <td class="muted">V1</td>
+                        <td>B-Branding</td>
+                        <td class="muted" style="text-align:center">Run 3</td>
+                        <td><span class="ts-chip">01:17</span></td>
+                        <td>The Michelin logo is displayed with the text 'MOTION FOR LIFE'.</td>
+                    </tr>
+                    <tr>
+                        <td class="muted">V1</td>
+                        <td>C-Connection</td>
+                        <td class="muted" style="text-align:center">Run 1</td>
+                        <td><span class="ts-chip">00:03</span></td>
+                        <td>A hand is seen adjusting the car radio, showing a human interaction with the vehicle.</td>
+                    </tr>
+                    <tr>
+                        <td class="muted">V1</td>
+                        <td>C-Connection</td>
+                        <td class="muted" style="text-align:center">Run 1</td>
+                        <td><span class="ts-chip">00:08</span></td>
+                        <td>A person is riding a motorcycle through a village, with children observing, indicating human presence in diverse settings.</td>
+                    </tr>
+                    <tr>
+                        <td class="muted">V1</td>
+                        <td>C-Connection</td>
+                        <td class="muted" style="text-align:center">Run 1</td>
+                        <td><span class="ts-chip">00:47</span></td>
+                        <td>A woman is waiting at a train station, looking at her phone, showing a human character in a daily life scenario.</td>
+                    </tr>
+                    <tr>
+                        <td class="muted">V1</td>
+                        <td>C-Connection</td>
+                        <td class="muted" style="text-align:center">Run 2</td>
+                        <td><span class="ts-chip">00:03</span></td>
+                        <td>A hand is seen adjusting the car radio, showing a human interaction with the vehicle.</td>
+                    </tr>
+                    <tr>
+                        <td class="muted">V1</td>
+                        <td>C-Connection</td>
+                        <td class="muted" style="text-align:center">Run 2</td>
+                        <td><span class="ts-chip">00:08</span></td>
+                        <td>A person is riding a motorcycle through a village, with children observing, indicating human presence in diverse settings.</td>
+                    </tr>
+                    <tr>
+                        <td class="muted">V1</td>
+                        <td>C-Connection</td>
+                        <td class="muted" style="text-align:center">Run 2</td>
+                        <td><span class="ts-chip">00:47</span></td>
+                        <td>A woman is waiting at a train station, looking at her phone, showing a human character in a daily life scenario.</td>
+                    </tr>
+                    <tr>
+                        <td class="muted">V1</td>
+                        <td>C-Connection</td>
+                        <td class="muted" style="text-align:center">Run 3</td>
+                        <td><span class="ts-chip">00:04</span></td>
+                        <td>A person's hand is seen adjusting the radio in a car.</td>
+                    </tr>
+                    <tr>
+                        <td class="muted">V1</td>
+                        <td>C-Connection</td>
+                        <td class="muted" style="text-align:center">Run 3</td>
+                        <td><span class="ts-chip">00:18</span></td>
+                        <td>A man is seen riding a bicycle rickshaw through a crowded street.</td>
+                    </tr>
+                    <tr>
+                        <td class="muted">V1</td>
+                        <td>C-Connection</td>
+                        <td class="muted" style="text-align:center">Run 3</td>
+                        <td><span class="ts-chip">00:36</span></td>
+                        <td>An older man sits at a diner table, looking out the window at a snowplow.</td>
+                    </tr>
+                    <tr>
+                        <td class="muted">V1</td>
+                        <td>D-Direction</td>
+                        <td class="muted" style="text-align:center">Run 1</td>
+                        <td><span class="ts-chip">00:57</span></td>
+                        <td>The Michelin logo and the tagline 'MICHELIN MOTION FOR LIFE' are displayed on a white background, concluding the ad.</td>
+                    </tr>
+                    <tr>
+                        <td class="muted">V1</td>
+                        <td>D-Direction</td>
+                        <td class="muted" style="text-align:center">Run 2</td>
+                        <td><span class="ts-chip">00:58</span></td>
+                        <td>The Michelin logo and the tagline 'MOTION FOR LIFE' are displayed on a white screen.</td>
+                    </tr>
+                    <tr>
+                        <td class="muted">V1</td>
+                        <td>D-Direction</td>
+                        <td class="muted" style="text-align:center">Run 3</td>
+                        <td><span class="ts-chip">00:57</span></td>
+                        <td>The Michelin logo and the tagline 'MICHELIN MOTION FOR LIFE' are displayed on a white background, concluding the ad.</td>
+                    </tr>
+                    <tr>
+                        <td class="muted">V2</td>
+                        <td>A-Attention</td>
+                        <td class="muted" style="text-align:center">Run 1</td>
+                        <td><span class="ts-chip">00:00</span></td>
+                        <td>A woman holds an orange phone while a man sits with his eyes closed, creating an initial sense of quiet observation.</td>
+                    </tr>
+                    <tr>
+                        <td class="muted">V2</td>
+                        <td>A-Attention</td>
+                        <td class="muted" style="text-align:center">Run 1</td>
+                        <td><span class="ts-chip">00:02</span></td>
+                        <td>The scene widens to show three people sitting at a large wooden table in a formal, dimly lit room, establishing an atmospheric setting.</td>
+                    </tr>
+                    <tr>
+                        <td class="muted">V2</td>
+                        <td>A-Attention</td>
+                        <td class="muted" style="text-align:center">Run 1</td>
+                        <td><span class="ts-chip">00:04</span></td>
+                        <td>The woman in the center appears to be speaking, but the man on the right remains still with his eyes closed, maintaining a subdued mood.</td>
+                    </tr>
+                    <tr>
+                        <td class="muted">V2</td>
+                        <td>A-Attention</td>
+                        <td class="muted" style="text-align:center">Run 2</td>
+                        <td><span class="ts-chip">00:00</span></td>
+                        <td>A woman holds an orange phone while a man sits with his eyes closed, creating an initial sense of quiet observation.</td>
+                    </tr>
+                    <tr>
+                        <td class="muted">V2</td>
+                        <td>A-Attention</td>
+                        <td class="muted" style="text-align:center">Run 2</td>
+                        <td><span class="ts-chip">00:02</span></td>
+                        <td>The scene widens to show three people sitting at a large wooden table in a formal, dimly lit room, establishing an atmospheric setting.</td>
+                    </tr>
+                    <tr>
+                        <td class="muted">V2</td>
+                        <td>A-Attention</td>
+                        <td class="muted" style="text-align:center">Run 2</td>
+                        <td><span class="ts-chip">00:04</span></td>
+                        <td>The woman in the center appears to be speaking, but the man on the right remains still with his eyes closed, maintaining a subdued mood.</td>
+                    </tr>
+                    <tr>
+                        <td class="muted">V2</td>
+                        <td>A-Attention</td>
+                        <td class="muted" style="text-align:center">Run 3</td>
+                        <td><span class="ts-chip">00:00</span></td>
+                        <td>A woman holds an orange phone while a man sits with his eyes closed, creating an initial sense of quiet observation.</td>
+                    </tr>
+                    <tr>
+                        <td class="muted">V2</td>
+                        <td>A-Attention</td>
+                        <td class="muted" style="text-align:center">Run 3</td>
+                        <td><span class="ts-chip">00:02</span></td>
+                        <td>The scene widens to show three people sitting at a large wooden table in a formal, dimly lit room, establishing an atmospheric setting.</td>
+                    </tr>
+                    <tr>
+                        <td class="muted">V2</td>
+                        <td>A-Attention</td>
+                        <td class="muted" style="text-align:center">Run 3</td>
+                        <td><span class="ts-chip">00:04</span></td>
+                        <td>The woman in the center appears to be speaking, but the man on the right remains still with his eyes closed, maintaining a subdued mood.</td>
+                    </tr>
+                    <tr>
+                        <td class="muted">V2</td>
+                        <td>B-Branding</td>
+                        <td class="muted" style="text-align:center">Run 1</td>
+                        <td><span class="ts-chip">00:00</span></td>
+                        <td>A woman is holding an orange smartphone, which is the product.</td>
+                    </tr>
+                    <tr>
+                        <td class="muted">V2</td>
+                        <td>B-Branding</td>
+                        <td class="muted" style="text-align:center">Run 1</td>
+                        <td><span class="ts-chip">00:09</span></td>
+                        <td>The orange smartphone is visible lying on the conference table.</td>
+                    </tr>
+                    <tr>
+                        <td class="muted">V2</td>
+                        <td>B-Branding</td>
+                        <td class="muted" style="text-align:center">Run 1</td>
+                        <td><span class="ts-chip">00:25</span></td>
+                        <td>The orange smartphone is prominently displayed on the table with the text 'Relax, it's iPhone 17', clearly showing the product and brand name.</td>
+                    </tr>
+                    <tr>
+                        <td class="muted">V2</td>
+                        <td>B-Branding</td>
+                        <td class="muted" style="text-align:center">Run 1</td>
+                        <td><span class="ts-chip">00:26</span></td>
+                        <td>The orange smartphone is shown on the table with the Apple logo appearing above it.</td>
+                    </tr>
+                    <tr>
+                        <td class="muted">V2</td>
+                        <td>B-Branding</td>
+                        <td class="muted" style="text-align:center">Run 2</td>
+                        <td><span class="ts-chip">00:00</span></td>
+                        <td>A woman is holding an orange smartphone, clearly visible in the foreground.</td>
+                    </tr>
+                    <tr>
+                        <td class="muted">V2</td>
+                        <td>B-Branding</td>
+                        <td class="muted" style="text-align:center">Run 2</td>
+                        <td><span class="ts-chip">00:10</span></td>
+                        <td>The orange smartphone is prominently displayed on the conference table.</td>
+                    </tr>
+                    <tr>
+                        <td class="muted">V2</td>
+                        <td>B-Branding</td>
+                        <td class="muted" style="text-align:center">Run 2</td>
+                        <td><span class="ts-chip">00:24</span></td>
+                        <td>The orange smartphone is shown in a close-up shot on the table, with the Apple logo visible.</td>
+                    </tr>
+                    <tr>
+                        <td class="muted">V2</td>
+                        <td>B-Branding</td>
+                        <td class="muted" style="text-align:center">Run 3</td>
+                        <td><span class="ts-chip">00:00</span></td>
+                        <td>A woman is holding an orange smartphone, which is the product.</td>
+                    </tr>
+                    <tr>
+                        <td class="muted">V2</td>
+                        <td>B-Branding</td>
+                        <td class="muted" style="text-align:center">Run 3</td>
+                        <td><span class="ts-chip">00:09</span></td>
+                        <td>The orange smartphone is visible lying on the conference table.</td>
+                    </tr>
+                    <tr>
+                        <td class="muted">V2</td>
+                        <td>B-Branding</td>
+                        <td class="muted" style="text-align:center">Run 3</td>
+                        <td><span class="ts-chip">00:25</span></td>
+                        <td>The orange smartphone is prominently displayed on the table with the text 'Relax, it's iPhone 17', clearly showing the product and brand name.</td>
+                    </tr>
+                    <tr>
+                        <td class="muted">V2</td>
+                        <td>B-Branding</td>
+                        <td class="muted" style="text-align:center">Run 3</td>
+                        <td><span class="ts-chip">00:26</span></td>
+                        <td>The orange smartphone is shown on the table with the Apple logo appearing above it.</td>
+                    </tr>
+                    <tr>
+                        <td class="muted">V2</td>
+                        <td>C-Connection</td>
+                        <td class="muted" style="text-align:center">Run 1</td>
+                        <td><span class="ts-chip">00:00</span></td>
+                        <td>A woman holds an orange phone towards a man who has his eyes closed, creating a sense of anticipation and tension.</td>
+                    </tr>
+                    <tr>
+                        <td class="muted">V2</td>
+                        <td>C-Connection</td>
+                        <td class="muted" style="text-align:center">Run 1</td>
+                        <td><span class="ts-chip">00:05</span></td>
+                        <td>The man opens his eyes and looks around with a surprised and concerned expression, reacting to the situation.</td>
+                    </tr>
+                    <tr>
+                        <td class="muted">V2</td>
+                        <td>C-Connection</td>
+                        <td class="muted" style="text-align:center">Run 1</td>
+                        <td><span class="ts-chip">00:26</span></td>
+                        <td>The text 'Relax, it's iPhone 17' appears on screen, providing a resolution to the implied tension and evoking a sense of relief.</td>
+                    </tr>
+                    <tr>
+                        <td class="muted">V2</td>
+                        <td>C-Connection</td>
+                        <td class="muted" style="text-align:center">Run 2</td>
+                        <td><span class="ts-chip">00:00</span></td>
+                        <td>A woman holds an orange phone towards a man who has his eyes closed, creating a sense of anticipation and tension.</td>
+                    </tr>
+                    <tr>
+                        <td class="muted">V2</td>
+                        <td>C-Connection</td>
+                        <td class="muted" style="text-align:center">Run 2</td>
+                        <td><span class="ts-chip">00:05</span></td>
+                        <td>The man opens his eyes and looks around with a surprised and concerned expression, reacting to the situation.</td>
+                    </tr>
+                    <tr>
+                        <td class="muted">V2</td>
+                        <td>C-Connection</td>
+                        <td class="muted" style="text-align:center">Run 2</td>
+                        <td><span class="ts-chip">00:26</span></td>
+                        <td>The text 'Relax, it's iPhone 17' appears on screen, providing a resolution to the implied tension and evoking a sense of relief.</td>
+                    </tr>
+                    <tr>
+                        <td class="muted">V2</td>
+                        <td>C-Connection</td>
+                        <td class="muted" style="text-align:center">Run 3</td>
+                        <td><span class="ts-chip">00:03</span></td>
+                        <td>Multiple individuals are seated around a large conference table, all appearing serious or contemplative.</td>
+                    </tr>
+                    <tr>
+                        <td class="muted">V2</td>
+                        <td>C-Connection</td>
+                        <td class="muted" style="text-align:center">Run 3</td>
+                        <td><span class="ts-chip">00:19</span></td>
+                        <td>A woman slides an orange smartphone across the polished wooden table towards another person.</td>
+                    </tr>
+                    <tr>
+                        <td class="muted">V2</td>
+                        <td>C-Connection</td>
+                        <td class="muted" style="text-align:center">Run 3</td>
+                        <td><span class="ts-chip">00:21</span></td>
+                        <td>A woman observes the sliding phone with a slight expression of surprise or concern.</td>
+                    </tr>
+                    <tr>
+                        <td class="muted">V2</td>
+                        <td>D-Direction</td>
+                        <td class="muted" style="text-align:center">Run 1</td>
+                        <td><span class="ts-chip">00:25</span></td>
+                        <td>Text 'Relax, it's iPhone 17' appears on screen, followed by the Apple logo at 00:26.</td>
+                    </tr>
+                    <tr>
+                        <td class="muted">V2</td>
+                        <td>D-Direction</td>
+                        <td class="muted" style="text-align:center">Run 2</td>
+                        <td><span class="ts-chip">00:25</span></td>
+                        <td>Text 'Relax, it's iPhone 17' appears on screen, followed by the Apple logo at 00:26.</td>
+                    </tr>
+                    <tr>
+                        <td class="muted">V2</td>
+                        <td>D-Direction</td>
+                        <td class="muted" style="text-align:center">Run 3</td>
+                        <td><span class="ts-chip">00:26</span></td>
+                        <td>The Apple logo appears on screen above the orange iPhone 17, with the text 'Relax, it's iPhone 17' previously shown.</td>
+                    </tr>
+                    <tr>
+                        <td class="muted">V3</td>
+                        <td>A-Attention</td>
+                        <td class="muted" style="text-align:center">Run 1</td>
+                        <td><span class="ts-chip">00:02</span></td>
+                        <td>A dark, silhouetted BMW car is shown from the front, with its kidney grille outline and headlights slowly illuminating, creating an atmospheric and intriguing visual.</td>
+                    </tr>
+                    <tr>
+                        <td class="muted">V3</td>
+                        <td>A-Attention</td>
+                        <td class="muted" style="text-align:center">Run 1</td>
+                        <td><span class="ts-chip">00:04</span></td>
+                        <td>The scene transitions to a BMW driving on a road at sunset, introducing motion and a new setting.</td>
+                    </tr>
+                    <tr>
+                        <td class="muted">V3</td>
+                        <td>A-Attention</td>
+                        <td class="muted" style="text-align:center">Run 2</td>
+                        <td><span class="ts-chip">00:00</span></td>
+                        <td>A dark, silhouetted BMW car is shown from the front with only the outline of its grille faintly glowing, and the text 'THE SOUL OF BMW' is displayed, creating an immediate atmospheric and intriguing scene.</td>
+                    </tr>
+                    <tr>
+                        <td class="muted">V3</td>
+                        <td>A-Attention</td>
+                        <td class="muted" style="text-align:center">Run 2</td>
+                        <td><span class="ts-chip">00:02</span></td>
+                        <td>The car's headlights gradually brighten, adding a subtle dynamic element to the visually striking opening.</td>
+                    </tr>
+                    <tr>
+                        <td class="muted">V3</td>
+                        <td>A-Attention</td>
+                        <td class="muted" style="text-align:center">Run 2</td>
+                        <td><span class="ts-chip">00:04</span></td>
+                        <td>The scene transitions to a moving car on a road with a sunset in the background, introducing clear motion and a new dynamic shot within the first 5 seconds.</td>
+                    </tr>
+                    <tr>
+                        <td class="muted">V3</td>
+                        <td>A-Attention</td>
+                        <td class="muted" style="text-align:center">Run 3</td>
+                        <td><span class="ts-chip">00:02</span></td>
+                        <td>A dark, silhouetted BMW car is shown from the front, with its kidney grille outline and headlights slowly illuminating, creating an atmospheric and intriguing visual.</td>
+                    </tr>
+                    <tr>
+                        <td class="muted">V3</td>
+                        <td>A-Attention</td>
+                        <td class="muted" style="text-align:center">Run 3</td>
+                        <td><span class="ts-chip">00:04</span></td>
+                        <td>The scene transitions to a BMW driving on a road at sunset, introducing motion and a new setting.</td>
+                    </tr>
+                    <tr>
+                        <td class="muted">V3</td>
+                        <td>B-Branding</td>
+                        <td class="muted" style="text-align:center">Run 1</td>
+                        <td><span class="ts-chip">00:00</span></td>
+                        <td>The text 'THE SOUL OF BMW' is clearly displayed on screen, introducing the brand.</td>
+                    </tr>
+                    <tr>
+                        <td class="muted">V3</td>
+                        <td>B-Branding</td>
+                        <td class="muted" style="text-align:center">Run 1</td>
+                        <td><span class="ts-chip">00:27</span></td>
+                        <td>A blue BMW i4 electric car, a BMW product, is clearly visible and charging by the sea.</td>
+                    </tr>
+                    <tr>
+                        <td class="muted">V3</td>
+                        <td>B-Branding</td>
+                        <td class="muted" style="text-align:center">Run 1</td>
+                        <td><span class="ts-chip">01:00</span></td>
+                        <td>The BMW logo and 'i' sub-brand logo are prominently displayed on a blue background as the closing card.</td>
+                    </tr>
+                    <tr>
+                        <td class="muted">V3</td>
+                        <td>B-Branding</td>
+                        <td class="muted" style="text-align:center">Run 2</td>
+                        <td><span class="ts-chip">00:00</span></td>
+                        <td>The text 'THE SOUL OF BMW' is clearly displayed on screen, introducing the brand.</td>
+                    </tr>
+                    <tr>
+                        <td class="muted">V3</td>
+                        <td>B-Branding</td>
+                        <td class="muted" style="text-align:center">Run 2</td>
+                        <td><span class="ts-chip">00:27</span></td>
+                        <td>A blue BMW i4 electric car, a BMW product, is clearly visible and charging by the sea.</td>
+                    </tr>
+                    <tr>
+                        <td class="muted">V3</td>
+                        <td>B-Branding</td>
+                        <td class="muted" style="text-align:center">Run 2</td>
+                        <td><span class="ts-chip">01:00</span></td>
+                        <td>The BMW logo and 'i' sub-brand logo are prominently displayed on a blue background as the closing card.</td>
+                    </tr>
+                    <tr>
+                        <td class="muted">V3</td>
+                        <td>B-Branding</td>
+                        <td class="muted" style="text-align:center">Run 3</td>
+                        <td><span class="ts-chip">00:00</span></td>
+                        <td>The brand name 'BMW' is clearly visible as part of the text 'THE SOUL OF BMW' displayed prominently on screen.</td>
+                    </tr>
+                    <tr>
+                        <td class="muted">V3</td>
+                        <td>B-Branding</td>
+                        <td class="muted" style="text-align:center">Run 3</td>
+                        <td><span class="ts-chip">00:26</span></td>
+                        <td>A blue BMW i4 is shown charging, with the BMW logo clearly visible on the hood of the car.</td>
+                    </tr>
+                    <tr>
+                        <td class="muted">V3</td>
+                        <td>B-Branding</td>
+                        <td class="muted" style="text-align:center">Run 3</td>
+                        <td><span class="ts-chip">00:53</span></td>
+                        <td>The BMW logo and 'i' logo are displayed prominently on a blue background as a closing brand card.</td>
+                    </tr>
+                    <tr>
+                        <td class="muted">V3</td>
+                        <td>C-Connection</td>
+                        <td class="muted" style="text-align:center">Run 1</td>
+                        <td><span class="ts-chip">00:30</span></td>
+                        <td>A woman is seen charging an electric car by the sea.</td>
+                    </tr>
+                    <tr>
+                        <td class="muted">V3</td>
+                        <td>C-Connection</td>
+                        <td class="muted" style="text-align:center">Run 1</td>
+                        <td><span class="ts-chip">00:32</span></td>
+                        <td>A woman smiles contentedly while looking up, suggesting a positive experience.</td>
+                    </tr>
+                    <tr>
+                        <td class="muted">V3</td>
+                        <td>C-Connection</td>
+                        <td class="muted" style="text-align:center">Run 1</td>
+                        <td><span class="ts-chip">00:41</span></td>
+                        <td>A man smiles broadly while driving a car, conveying driving pleasure.</td>
+                    </tr>
+                    <tr>
+                        <td class="muted">V3</td>
+                        <td>C-Connection</td>
+                        <td class="muted" style="text-align:center">Run 2</td>
+                        <td><span class="ts-chip">00:11</span></td>
+                        <td>A man in a car shows a surprised and wide-eyed expression.</td>
+                    </tr>
+                    <tr>
+                        <td class="muted">V3</td>
+                        <td>C-Connection</td>
+                        <td class="muted" style="text-align:center">Run 2</td>
+                        <td><span class="ts-chip">00:22</span></td>
+                        <td>A woman smiles broadly while looking up at the sky.</td>
+                    </tr>
+                    <tr>
+                        <td class="muted">V3</td>
+                        <td>C-Connection</td>
+                        <td class="muted" style="text-align:center">Run 2</td>
+                        <td><span class="ts-chip">00:33</span></td>
+                        <td>A man is shown smiling happily while driving a car.</td>
+                    </tr>
+                    <tr>
+                        <td class="muted">V3</td>
+                        <td>C-Connection</td>
+                        <td class="muted" style="text-align:center">Run 3</td>
+                        <td><span class="ts-chip">00:30</span></td>
+                        <td>A woman is seen charging an electric car by the sea.</td>
+                    </tr>
+                    <tr>
+                        <td class="muted">V3</td>
+                        <td>C-Connection</td>
+                        <td class="muted" style="text-align:center">Run 3</td>
+                        <td><span class="ts-chip">00:32</span></td>
+                        <td>A woman smiles contentedly while looking up, suggesting a positive experience.</td>
+                    </tr>
+                    <tr>
+                        <td class="muted">V3</td>
+                        <td>C-Connection</td>
+                        <td class="muted" style="text-align:center">Run 3</td>
+                        <td><span class="ts-chip">00:41</span></td>
+                        <td>A man smiles broadly while driving a car, conveying driving pleasure.</td>
+                    </tr>
+                    <tr>
+                        <td class="muted">V3</td>
+                        <td>D-Direction</td>
+                        <td class="muted" style="text-align:center">Run 1</td>
+                        <td><span class="ts-chip">00:29</span></td>
+                        <td>The BMW logo and the BMW i logo are displayed on a blue sky background, serving as a branded closing.</td>
+                    </tr>
+                    <tr>
+                        <td class="muted">V3</td>
+                        <td>D-Direction</td>
+                        <td class="muted" style="text-align:center">Run 2</td>
+                        <td><span class="ts-chip">00:29</span></td>
+                        <td>The BMW logo and the BMW i logo are displayed on a blue sky background, serving as a branded closing.</td>
+                    </tr>
+                    <tr>
+                        <td class="muted">V3</td>
+                        <td>D-Direction</td>
+                        <td class="muted" style="text-align:center">Run 3</td>
+                        <td><span class="ts-chip">00:29</span></td>
+                        <td>The BMW logo and the BMW i logo are displayed on a blue sky background, serving as a branded closing.</td>
+                    </tr>
+                    <tr>
+                        <td class="muted">V4</td>
+                        <td>A-Attention</td>
+                        <td class="muted" style="text-align:center">Run 1</td>
+                        <td><span class="ts-chip">00:00</span></td>
+                        <td>The screen is completely black with no visual elements.</td>
+                    </tr>
+                    <tr>
+                        <td class="muted">V4</td>
+                        <td>A-Attention</td>
+                        <td class="muted" style="text-align:center">Run 1</td>
+                        <td><span class="ts-chip">00:03</span></td>
+                        <td>Text 'From the pillars of victory...' appears on a black background with no other visual engagement.</td>
+                    </tr>
+                    <tr>
+                        <td class="muted">V4</td>
+                        <td>A-Attention</td>
+                        <td class="muted" style="text-align:center">Run 2</td>
+                        <td><span class="ts-chip">00:00</span></td>
+                        <td>The screen is completely black with no visual elements.</td>
+                    </tr>
+                    <tr>
+                        <td class="muted">V4</td>
+                        <td>A-Attention</td>
+                        <td class="muted" style="text-align:center">Run 2</td>
+                        <td><span class="ts-chip">00:04</span></td>
+                        <td>White text 'From the pillars of victory...' appears on a black background, with no other visual engagement.</td>
+                    </tr>
+                    <tr>
+                        <td class="muted">V4</td>
+                        <td>A-Attention</td>
+                        <td class="muted" style="text-align:center">Run 3</td>
+                        <td><span class="ts-chip">00:00</span></td>
+                        <td>The screen is completely black with no visual elements.</td>
+                    </tr>
+                    <tr>
+                        <td class="muted">V4</td>
+                        <td>A-Attention</td>
+                        <td class="muted" style="text-align:center">Run 3</td>
+                        <td><span class="ts-chip">00:04</span></td>
+                        <td>White text 'From the pillars of victory...' appears on a black background, with no other visual engagement.</td>
+                    </tr>
+                    <tr>
+                        <td class="muted">V4</td>
+                        <td>B-Branding</td>
+                        <td class="muted" style="text-align:center">Run 1</td>
+                        <td><span class="ts-chip">00:14</span></td>
+                        <td>The McDonald's sign is clearly visible on the building, marking the first appearance of the main brand.</td>
+                    </tr>
+                    <tr>
+                        <td class="muted">V4</td>
+                        <td>B-Branding</td>
+                        <td class="muted" style="text-align:center">Run 2</td>
+                        <td><span class="ts-chip">00:14</span></td>
+                        <td>The McDonald's sign is clearly visible on the building, marking the first appearance of the main brand.</td>
+                    </tr>
+                    <tr>
+                        <td class="muted">V4</td>
+                        <td>B-Branding</td>
+                        <td class="muted" style="text-align:center">Run 3</td>
+                        <td><span class="ts-chip">00:14</span></td>
+                        <td>The McDonald's sign is clearly visible on the building, marking the first appearance of the main brand.</td>
+                    </tr>
+                    <tr>
+                        <td class="muted">V4</td>
+                        <td>C-Connection</td>
+                        <td class="muted" style="text-align:center">Run 1</td>
+                        <td><span class="ts-chip">00:16</span></td>
+                        <td>David Beckham is seen smiling as he receives food from the McDonald's drive-thru.</td>
+                    </tr>
+                    <tr>
+                        <td class="muted">V4</td>
+                        <td>C-Connection</td>
+                        <td class="muted" style="text-align:center">Run 1</td>
+                        <td><span class="ts-chip">00:18</span></td>
+                        <td>People are seen inside McDonald's, smiling and holding drinks, indicating enjoyment.</td>
+                    </tr>
+                    <tr>
+                        <td class="muted">V4</td>
+                        <td>C-Connection</td>
+                        <td class="muted" style="text-align:center">Run 1</td>
+                        <td><span class="ts-chip">00:20</span></td>
+                        <td>Two men are laughing together outside the McDonald's restaurant.</td>
+                    </tr>
+                    <tr>
+                        <td class="muted">V4</td>
+                        <td>C-Connection</td>
+                        <td class="muted" style="text-align:center">Run 2</td>
+                        <td><span class="ts-chip">00:16</span></td>
+                        <td>David Beckham is seen smiling as he receives food from the McDonald's drive-thru.</td>
+                    </tr>
+                    <tr>
+                        <td class="muted">V4</td>
+                        <td>C-Connection</td>
+                        <td class="muted" style="text-align:center">Run 2</td>
+                        <td><span class="ts-chip">00:18</span></td>
+                        <td>People are seen inside McDonald's, smiling and holding drinks, indicating enjoyment.</td>
+                    </tr>
+                    <tr>
+                        <td class="muted">V4</td>
+                        <td>C-Connection</td>
+                        <td class="muted" style="text-align:center">Run 2</td>
+                        <td><span class="ts-chip">00:20</span></td>
+                        <td>Two men are laughing together outside the McDonald's restaurant.</td>
+                    </tr>
+                    <tr>
+                        <td class="muted">V4</td>
+                        <td>C-Connection</td>
+                        <td class="muted" style="text-align:center">Run 3</td>
+                        <td><span class="ts-chip">00:16</span></td>
+                        <td>David Beckham is seen smiling as he receives food from the McDonald's drive-thru.</td>
+                    </tr>
+                    <tr>
+                        <td class="muted">V4</td>
+                        <td>C-Connection</td>
+                        <td class="muted" style="text-align:center">Run 3</td>
+                        <td><span class="ts-chip">00:18</span></td>
+                        <td>People are seen inside McDonald's, smiling and holding drinks, indicating enjoyment.</td>
+                    </tr>
+                    <tr>
+                        <td class="muted">V4</td>
+                        <td>C-Connection</td>
+                        <td class="muted" style="text-align:center">Run 3</td>
+                        <td><span class="ts-chip">00:20</span></td>
+                        <td>Two men are laughing together outside the McDonald's restaurant.</td>
+                    </tr>
+                    <tr>
+                        <td class="muted">V4</td>
+                        <td>D-Direction</td>
+                        <td class="muted" style="text-align:center">Run 1</td>
+                        <td><span class="ts-chip">00:29</span></td>
+                        <td>The McDonald's logo is visible through the window in the background, and a list of famous football players and Grimace is displayed on screen next to the FIFA World Cup trophy, creating a clear brand impression.</td>
+                    </tr>
+                    <tr>
+                        <td class="muted">V4</td>
+                        <td>D-Direction</td>
+                        <td class="muted" style="text-align:center">Run 2</td>
+                        <td><span class="ts-chip">00:29</span></td>
+                        <td>The FIFA World Cup trophy is displayed on a table inside a McDonald's restaurant, with the McDonald's logo clearly visible through the window in the background.</td>
+                    </tr>
+                    <tr>
+                        <td class="muted">V4</td>
+                        <td>D-Direction</td>
+                        <td class="muted" style="text-align:center">Run 3</td>
+                        <td><span class="ts-chip">00:29</span></td>
+                        <td>The McDonald's logo is visible through the window in the background, and a list of famous football players and Grimace is displayed on screen next to the FIFA World Cup trophy, creating a clear brand impression.</td>
+                    </tr>
+                    <tr>
+                        <td class="muted">V5</td>
+                        <td>A-Attention</td>
+                        <td class="muted" style="text-align:center">Run 1</td>
+                        <td><span class="ts-chip">00:00</span></td>
+                        <td>The video opens with a cinematic shot of two washing machines in a modern room, with a person running past a large window overlooking a scenic lake and forest.</td>
+                    </tr>
+                    <tr>
+                        <td class="muted">V5</td>
+                        <td>A-Attention</td>
+                        <td class="muted" style="text-align:center">Run 1</td>
+                        <td><span class="ts-chip">00:02</span></td>
+                        <td>A woman wearing safety glasses is shown actively planing a piece of wood, creating wood shavings.</td>
+                    </tr>
+                    <tr>
+                        <td class="muted">V5</td>
+                        <td>A-Attention</td>
+                        <td class="muted" style="text-align:center">Run 2</td>
+                        <td><span class="ts-chip">00:00</span></td>
+                        <td>The video opens with a cinematic shot of two washing machines in a modern room, with a person running past a large window overlooking a scenic lake and forest.</td>
+                    </tr>
+                    <tr>
+                        <td class="muted">V5</td>
+                        <td>A-Attention</td>
+                        <td class="muted" style="text-align:center">Run 2</td>
+                        <td><span class="ts-chip">00:02</span></td>
+                        <td>A woman wearing safety glasses is shown actively planing a piece of wood, creating wood shavings.</td>
+                    </tr>
+                    <tr>
+                        <td class="muted">V5</td>
+                        <td>A-Attention</td>
+                        <td class="muted" style="text-align:center">Run 3</td>
+                        <td><span class="ts-chip">00:00</span></td>
+                        <td>The video opens with a cinematic shot of two washing machines in a modern room, with a person running past a large window overlooking a scenic lake and forest.</td>
+                    </tr>
+                    <tr>
+                        <td class="muted">V5</td>
+                        <td>A-Attention</td>
+                        <td class="muted" style="text-align:center">Run 3</td>
+                        <td><span class="ts-chip">00:02</span></td>
+                        <td>A woman wearing safety glasses is shown actively planing a piece of wood, creating wood shavings.</td>
+                    </tr>
+                    <tr>
+                        <td class="muted">V5</td>
+                        <td>B-Branding</td>
+                        <td class="muted" style="text-align:center">Run 1</td>
+                        <td><span class="ts-chip">00:00</span></td>
+                        <td>The Electrolux logo and text 'Electrolux presents wash life balance' are clearly visible.</td>
+                    </tr>
+                    <tr>
+                        <td class="muted">V5</td>
+                        <td>B-Branding</td>
+                        <td class="muted" style="text-align:center">Run 1</td>
+                        <td><span class="ts-chip">00:15</span></td>
+                        <td>The Electrolux logo is visible in the top left corner of the screen.</td>
+                    </tr>
+                    <tr>
+                        <td class="muted">V5</td>
+                        <td>B-Branding</td>
+                        <td class="muted" style="text-align:center">Run 1</td>
+                        <td><span class="ts-chip">00:39</span></td>
+                        <td>The Electrolux logo and tagline 'Swedish thinking. Better living.' are displayed, along with the website address.</td>
+                    </tr>
+                    <tr>
+                        <td class="muted">V5</td>
+                        <td>B-Branding</td>
+                        <td class="muted" style="text-align:center">Run 2</td>
+                        <td><span class="ts-chip">00:00</span></td>
+                        <td>The Electrolux logo and text 'Electrolux presents wash life balance' are clearly visible.</td>
+                    </tr>
+                    <tr>
+                        <td class="muted">V5</td>
+                        <td>B-Branding</td>
+                        <td class="muted" style="text-align:center">Run 2</td>
+                        <td><span class="ts-chip">00:15</span></td>
+                        <td>The Electrolux logo is visible in the top left corner of the screen.</td>
+                    </tr>
+                    <tr>
+                        <td class="muted">V5</td>
+                        <td>B-Branding</td>
+                        <td class="muted" style="text-align:center">Run 2</td>
+                        <td><span class="ts-chip">00:39</span></td>
+                        <td>The Electrolux logo and tagline 'Swedish thinking. Better living.' are displayed, along with the website address.</td>
+                    </tr>
+                    <tr>
+                        <td class="muted">V5</td>
+                        <td>B-Branding</td>
+                        <td class="muted" style="text-align:center">Run 3</td>
+                        <td><span class="ts-chip">00:00</span></td>
+                        <td>The Electrolux logo and text 'Electrolux presents wash life balance' are clearly visible.</td>
+                    </tr>
+                    <tr>
+                        <td class="muted">V5</td>
+                        <td>B-Branding</td>
+                        <td class="muted" style="text-align:center">Run 3</td>
+                        <td><span class="ts-chip">00:15</span></td>
+                        <td>The Electrolux logo is visible in the top left corner of the screen.</td>
+                    </tr>
+                    <tr>
+                        <td class="muted">V5</td>
+                        <td>B-Branding</td>
+                        <td class="muted" style="text-align:center">Run 3</td>
+                        <td><span class="ts-chip">00:39</span></td>
+                        <td>The Electrolux logo and tagline 'Swedish thinking. Better living.' are displayed, along with the website address.</td>
+                    </tr>
+                    <tr>
+                        <td class="muted">V5</td>
+                        <td>C-Connection</td>
+                        <td class="muted" style="text-align:center">Run 1</td>
+                        <td><span class="ts-chip">00:05</span></td>
+                        <td>A woman in safety glasses blows wood shavings off a piece of wood, showing engagement in a craft.</td>
+                    </tr>
+                    <tr>
+                        <td class="muted">V5</td>
+                        <td>C-Connection</td>
+                        <td class="muted" style="text-align:center">Run 1</td>
+                        <td><span class="ts-chip">00:22</span></td>
+                        <td>A woman helps a man who is hidden behind a large pile of laundry, revealing his face and showing a relatable shared chore.</td>
+                    </tr>
+                    <tr>
+                        <td class="muted">V5</td>
+                        <td>C-Connection</td>
+                        <td class="muted" style="text-align:center">Run 1</td>
+                        <td><span class="ts-chip">00:33</span></td>
+                        <td>Two people are seen from behind, sitting in a canoe on a calm lake at sunset, depicting a peaceful and balanced lifestyle.</td>
+                    </tr>
+                    <tr>
+                        <td class="muted">V5</td>
+                        <td>C-Connection</td>
+                        <td class="muted" style="text-align:center">Run 2</td>
+                        <td><span class="ts-chip">00:05</span></td>
+                        <td>A woman in safety glasses blows wood shavings off a piece of wood, showing engagement in a craft.</td>
+                    </tr>
+                    <tr>
+                        <td class="muted">V5</td>
+                        <td>C-Connection</td>
+                        <td class="muted" style="text-align:center">Run 2</td>
+                        <td><span class="ts-chip">00:22</span></td>
+                        <td>A woman helps a man who is hidden behind a large pile of laundry, revealing his face and showing a relatable shared chore.</td>
+                    </tr>
+                    <tr>
+                        <td class="muted">V5</td>
+                        <td>C-Connection</td>
+                        <td class="muted" style="text-align:center">Run 2</td>
+                        <td><span class="ts-chip">00:33</span></td>
+                        <td>Two people are seen from behind, sitting in a canoe on a calm lake at sunset, depicting a peaceful and balanced lifestyle.</td>
+                    </tr>
+                    <tr>
+                        <td class="muted">V5</td>
+                        <td>C-Connection</td>
+                        <td class="muted" style="text-align:center">Run 3</td>
+                        <td><span class="ts-chip">00:05</span></td>
+                        <td>A woman in safety glasses blows wood shavings off a piece of wood, showing engagement in a craft.</td>
+                    </tr>
+                    <tr>
+                        <td class="muted">V5</td>
+                        <td>C-Connection</td>
+                        <td class="muted" style="text-align:center">Run 3</td>
+                        <td><span class="ts-chip">00:22</span></td>
+                        <td>A woman helps a man who is hidden behind a large pile of laundry, revealing his face and showing a relatable shared chore.</td>
+                    </tr>
+                    <tr>
+                        <td class="muted">V5</td>
+                        <td>C-Connection</td>
+                        <td class="muted" style="text-align:center">Run 3</td>
+                        <td><span class="ts-chip">00:33</span></td>
+                        <td>Two people are seen from behind, sitting in a canoe on a calm lake at sunset, depicting a peaceful and balanced lifestyle.</td>
+                    </tr>
+                    <tr>
+                        <td class="muted">V5</td>
+                        <td>D-Direction</td>
+                        <td class="muted" style="text-align:center">Run 1</td>
+                        <td><span class="ts-chip">00:41</span></td>
+                        <td>The Electrolux logo, tagline 'Swedish thinking. Better living.', and a clear call to action 'Discover more at electrolux.com' are displayed on screen.</td>
+                    </tr>
+                    <tr>
+                        <td class="muted">V5</td>
+                        <td>D-Direction</td>
+                        <td class="muted" style="text-align:center">Run 2</td>
+                        <td><span class="ts-chip">00:41</span></td>
+                        <td>The Electrolux logo, tagline 'Swedish thinking. Better living.', and a clear call to action 'Discover more at electrolux.com' are displayed on screen.</td>
+                    </tr>
+                    <tr>
+                        <td class="muted">V5</td>
+                        <td>D-Direction</td>
+                        <td class="muted" style="text-align:center">Run 3</td>
+                        <td><span class="ts-chip">00:39</span></td>
+                        <td>The Electrolux logo, tagline 'Swedish thinking. Better living.', and a clear call to action 'Discover more at electrolux.com' are displayed prominently on screen.</td>
+                    </tr></tbody>
+  </table>
+  </div>
+
+</div>
+</body>
+</html>

@@ -28,11 +28,15 @@ Score using this scale:
 Return JSON with these exact fields:
   criterion_id: "YT-A1"
   score: 0, 1, or 2
-  evidence: timestamp + one-sentence description of what you see (required if score < 2)
-  fix: concrete corrective action (required if score < 2)
+  evidence: a JSON array of 1–3 grounded moments, each object having:
+    - timestamp: "MM:SS" of the frame you observed (e.g. "00:02")
+    - observation: one sentence describing exactly what is seen at that moment
+    - frame_b64: null (leave null — this field is populated by the system)
+    Score=2 example: [{"timestamp": "00:01", "observation": "Close-up of a rally car powersliding on gravel, dust flying, immediately gripping", "frame_b64": null}]
+    Score=0 example: [{"timestamp": "00:00", "observation": "Static brand logo on black background, no motion or subject", "frame_b64": null}]
+  fix: concrete corrective action (required if score < 2, null if score = 2)
 
-If score is 2, set evidence and fix to null.
-Only describe what is visually present in the frames. Do not invent detail.
+Always populate evidence with at least one item. Only describe what is visually present. Do not invent detail.
 """,
 
     "YT-D1": """You are a video ad creative quality scorer.
@@ -53,14 +57,20 @@ Score using this scale:
 Return JSON with these exact fields:
   criterion_id: "YT-D1"
   score: 0, 1, or 2
-  evidence: timestamp + one-sentence description of what you see (required if score < 2,
-            e.g. "00:58 — logo and tagline 'Motion for Life' appear but no URL or action verb")
-  fix: concrete corrective action (required if score < 2,
-       e.g. for score=1: "Add a URL or explicit action verb to the closing (e.g. 'Visit michelin.com') to upgrade it from a brand sign-off to a true CTA"
-       e.g. for score=0: "Add a branded closing with logo and tagline, or an explicit CTA before the final 5s")
+  evidence: a JSON array of exactly 1 moment — the single most prominent CTA or closing brand frame.
+    Pick the frame where the CTA/logo/tagline is most clearly visible. Do not cite multiple nearby frames.
+    The object must have:
+    - timestamp: "MM:SS" of the frame you observed (e.g. "00:58")
+    - observation: one sentence describing exactly what is seen or heard at that moment
+    - frame_b64: null (leave null — this field is populated by the system)
+    Score=2 example: [{"timestamp": "00:55", "observation": "Large on-screen text 'Visit michelin.com' displayed prominently, spoken aloud by narrator", "frame_b64": null}]
+    Score=1 example: [{"timestamp": "00:58", "observation": "Michelin logo and tagline 'Motion for Life' appear on screen, no URL or action verb", "frame_b64": null}]
+    Score=0 example: [{"timestamp": "01:00", "observation": "Ad cuts to black with no logo, tagline, or brand sign-off of any kind", "frame_b64": null}]
+  fix: concrete corrective action (required if score < 2, null if score = 2)
+       Score=1 fix: "Add a URL or explicit action verb to the closing (e.g. 'Visit michelin.com') to upgrade the brand sign-off to a true CTA"
+       Score=0 fix: "Add a branded closing with logo and tagline, or an explicit CTA before the final 5s"
 
-If score is 2, set evidence and fix to null.
-Only describe what is visually or audibly present. Do not invent detail.
+Always populate evidence. Only describe what is visually or audibly present. Do not invent detail.
 """,
 }
 
@@ -98,11 +108,15 @@ Score using this scale:
 Return JSON with these exact fields:
   criterion_id: "YT-A1"
   score: 0, 1, or 2
-  evidence: timestamp + one-sentence description of what you see (required if score < 2, e.g. "00:00–00:04 — static logo on white background")
-  fix: concrete corrective action (required if score < 2, e.g. "Open with a close-up of the product in use or a person reacting in the first 3s")
+  evidence: a JSON array of 1–3 grounded moments, each object having:
+    - timestamp: "MM:SS" of the frame you observed (e.g. "00:02")
+    - observation: one sentence describing exactly what is seen at that moment
+    - frame_b64: null (leave null — this field is populated by the system)
+    Score=2 example: [{"timestamp": "00:01", "observation": "Close-up of athlete's face mid-sprint, intense expression, fast cut sequence", "frame_b64": null}]
+    Score=0 example: [{"timestamp": "00:00", "observation": "Static logo on white background, no motion", "frame_b64": null}]
+  fix: concrete corrective action (required if score < 2, null if score = 2)
 
-If score is 2, set evidence and fix to null.
-Only describe what is visually present in the frames. Do not invent detail.
+Always populate evidence with at least one item. Only describe what is visually present. Do not invent detail.
 """,
 
     "YT-B1": """You are a video ad creative quality scorer.
@@ -125,11 +139,20 @@ Score using this scale:
 Return JSON with these exact fields:
   criterion_id: "YT-B1"
   score: 0, 1, or 2
-  evidence: timestamp + one-sentence description of where/when brand appears (required if score < 2, e.g. "00:00 and 00:45 — logo only at intro and final seconds, nothing in middle")
-  fix: concrete corrective action (required if score < 2, e.g. "Add brand/product appearances in the middle of the ad so it appears at beginning, middle, and end")
+  evidence: a JSON array of exactly 3 moments, one from each section of the video:
+    - The FIRST brand/product appearance in the opening third (first ~33% of the video)
+    - The MOST PROMINENT brand/product appearance in the middle third (33–67%)
+    - The LAST brand/product appearance in the final third (67–100%)
+    If fewer than 3 distinct appearances exist, cite only the moments that are actually present.
+    Each object must have:
+    - timestamp: "MM:SS" of the frame you observed
+    - observation: one sentence describing exactly what brand/product element is visible
+    - frame_b64: null (leave null — this field is populated by the system)
+    Score=2 example: [{"timestamp": "00:02", "observation": "Brand logo clearly displayed top-left", "frame_b64": null}, {"timestamp": "00:28", "observation": "Product close-up with brand name visible", "frame_b64": null}, {"timestamp": "00:52", "observation": "Logo closing card with brand name", "frame_b64": null}]
+    Score=0 example: [{"timestamp": "00:58", "observation": "Brand logo appears only in the final 2 seconds, invisible throughout the rest", "frame_b64": null}]
+  fix: concrete corrective action (required if score < 2, null if score = 2)
 
-If score is 2, set evidence and fix to null.
-Only describe what is visually present in the frames. Do not invent detail.
+Always populate evidence with at least one item. Only describe what is visually present. Do not invent detail.
 """,
 
     "YT-C1": """You are a video ad creative quality scorer.
@@ -147,11 +170,20 @@ Score using this scale:
 Return JSON with these exact fields:
   criterion_id: "YT-C1"
   score: 0, 1, or 2
-  evidence: timestamp + one-sentence description of what you see (required if score < 2, e.g. "00:00–00:60 — no human characters, only car driving through landscape")
-  fix: concrete corrective action (required if score < 2, e.g. "Add a relatable character or story arc — show a person experiencing a benefit of the product")
+  evidence: a JSON array of 1–2 grounded moments:
+    - If score = 2 or 1: cite the EARLIEST human/emotional moment AND the STRONGEST emotional moment.
+      If they are the same frame, cite it once.
+    - If score = 0: cite 1–2 frames that illustrate the absence of emotional content
+      (e.g. a product-only shot, empty landscape, or logo with no people).
+    Each object must have:
+    - timestamp: "MM:SS" of the frame you observed — must be a real timecode like "00:05", never "N/A"
+    - observation: one sentence describing exactly what is seen at that moment
+    - frame_b64: null (leave null — this field is populated by the system)
+    Score=2 example: [{"timestamp": "00:05", "observation": "Family laughing together in car, clear joy and warmth", "frame_b64": null}, {"timestamp": "00:40", "observation": "Child's face lighting up as they arrive at destination, emotional payoff", "frame_b64": null}]
+    Score=0 example: [{"timestamp": "00:08", "observation": "Product shot of car on empty road, no people or human story present", "frame_b64": null}]
+  fix: concrete corrective action (required if score < 2, null if score = 2)
 
-If score is 2, set evidence and fix to null.
-Only describe what is visually present in the frames. Do not invent detail.
+Always populate evidence with real timestamps. Only describe what is visually present. Do not invent detail.
 """,
 
     "YT-D1": """You are a video ad creative quality scorer.
@@ -169,10 +201,17 @@ Score using this scale:
 Return JSON with these exact fields:
   criterion_id: "YT-D1"
   score: 0, 1, or 2
-  evidence: timestamp + one-sentence description of what you see (required if score < 2, e.g. "00:58 — small URL text appears for 2 seconds at the very end")
-  fix: concrete corrective action (required if score < 2, e.g. "Add a clear spoken or on-screen CTA before the final 5s, e.g. 'Visit michelin.com to find your nearest dealer'")
+  evidence: a JSON array of exactly 1 moment — the single most prominent CTA or closing brand frame.
+    Pick the frame where the CTA/logo is most clearly visible. Do not cite multiple nearby frames.
+    The object must have:
+    - timestamp: "MM:SS" of the frame you observed
+    - observation: one sentence describing exactly what is seen or heard at that moment
+    - frame_b64: null (leave null — this field is populated by the system)
+    Score=2 example: [{"timestamp": "00:55", "observation": "Large on-screen text 'Visit michelin.com' spoken aloud, clearly visible", "frame_b64": null}]
+    Score=1 example: [{"timestamp": "00:58", "observation": "Brand logo and tagline appear in final seconds, no URL or action verb", "frame_b64": null}]
+    Score=0 example: [{"timestamp": "01:00", "observation": "Ad ends with logo only, no URL, no action verb, no direction given", "frame_b64": null}]
+  fix: concrete corrective action (required if score < 2, null if score = 2)
 
-If score is 2, set evidence and fix to null.
-Only describe what is visually or audibly present. Do not invent detail.
+Always populate evidence. Only describe what is visually or audibly present. Do not invent detail.
 """,
 }

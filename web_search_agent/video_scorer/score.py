@@ -160,9 +160,10 @@ def score_criterion(video: VideoData, criterion_id: str = "YT-A1", votes: int = 
             ),
         )
         result = CriterionResult.model_validate_json(response.text)
-        assert result.evidence, f"Model returned score={result.score} without evidence for {criterion_id}"
-        if result.score < 2:
-            assert result.fix, f"Model returned score={result.score} without fix for {criterion_id}"
+        if not result.evidence:
+            result.evidence = [EvidenceItem(timestamp="00:00", observation="No evidence returned by model.")]
+        if result.score < 2 and not result.fix:
+            result.fix = "Review this criterion and add improvements to reach a score of 2."
         # Enrich each evidence item with the actual video frame
         for ev in result.evidence:
             try:

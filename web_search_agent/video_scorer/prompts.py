@@ -1,4 +1,62 @@
+_YT_E1_PROMPT = """You are a video ad creative quality scorer.
+
+Criterion YT-E1 — Brand Safety: Does the ad contain content that could harm the brand?
+
+Assess all four dimensions. A score of 0 on ANY single dimension pulls the overall score to 0.
+
+DIMENSION 1 — Content Appropriateness
+Flag: explicit, graphic, or disturbing imagery; strong profanity; sexual content;
+glorification of violence, illegal activity, or self-harm.
+Safe: mild innuendo, mild language, action sequences without gratuitous violence.
+
+DIMENSION 2 — Controversial Topics
+Flag: political endorsements or partisan messaging; religious controversy;
+strongly divisive social justice framings; references to ongoing conflicts,
+protests, or polarizing public figures.
+Safe: broadly inclusive themes (family, community, sustainability) with no divisive stance.
+
+DIMENSION 3 — Competitor Mentions
+Flag: naming a specific competitor brand or product; showing a competitor logo or
+packaging; comparative claims ("better than Brand X"); implied attacks clearly
+directed at a named competitor.
+Safe: generic category comparisons ("other tires", "ordinary cars") without naming anyone.
+
+DIMENSION 4 — Unsubstantiated Claims
+Flag: unqualified superlatives ("the safest", "the best in the world", "guaranteed to");
+medical/health claims without caveats; environmental claims not grounded in visible
+product fact.
+Safe: aspirational language framed as brand perspective ("we believe", "designed to")
+or claims clearly demonstrated in the product.
+
+Score using this scale:
+  2 = No issues across all four dimensions — ad is fully brand-safe
+  1 = One or more minor/borderline concerns: mild language, implied (non-named) competitor
+      comparison, mildly unqualified superlative, or a broadly inclusive social theme that
+      a small audience might find divisive
+  0 = Clear violation in at least one dimension: explicit content, direct competitor
+      naming/attack, demonstrably false claim, or strongly partisan/religious messaging
+
+Return JSON with these exact fields:
+  criterion_id: "YT-E1"
+  score: 0, 1, or 2
+  evidence: a JSON array of 1–4 flagged moments (one per issue found). If score = 2,
+    provide 1 frame confirming no issues were detected across the full video.
+    Each object must have:
+    - timestamp: "MM:SS" of the frame observed (e.g. "00:12")
+    - observation: one sentence naming the dimension and describing the issue, e.g.
+      "COMPETITOR: Brand X logo visible on shelf at this moment" or
+      "CLAIM: 'World's safest tire' shown on screen without qualification" or
+      "SAFE: No content, competitor, controversy, or claim issues detected throughout"
+    - frame_b64: null (leave null — this field is populated by the system)
+  fix: if score < 2, list each specific issue and how to remove or mitigate it.
+       null if score = 2.
+
+Only describe what is visually or audibly present. Do not invent detail.
+"""
+
 CRITERION_PROMPTS_BRAND = {
+    "YT-E1": _YT_E1_PROMPT,
+
     "YT-A1": """You are a video ad creative quality scorer.
 
 Criterion YT-A1 — Attention: Does the opening 5 seconds create visual engagement?
@@ -11,17 +69,27 @@ WHAT COUNTS as engaging (scores 1 or 2):
 - A fast cut sequence or montage with clear motion
 - A person speaking directly to camera
 - A visually striking cinematic scene that creates immediate intrigue, mood, or atmosphere
+- Text supers or captions that immediately reinforce the opening message alongside a visual hook
 
 WHAT DOES NOT COUNT (scores 0):
 - A completely static logo hold with zero visual movement
 - A plain text card or title card with no imagery behind it
 - A brand name fading in over a black screen with nothing else
 
+AUDIO & SUPERS NOTE: A hook backed by audio narration or on-screen text supers is stronger than
+a visual-only hook — flag this in evidence when present. Competing audio/visual elements that
+contradict each other are a weakness.
+
+VISUAL QUALITY NOTE: Visuals that appear dark, blurry, or low-contrast weaken attention
+on mobile devices — note this in evidence if observed.
+
 Score using this scale:
   2 = Clear dynamic hook (from the "counts" list above) within the first 3s, OR a visually
-      striking cinematic/atmospheric opening that immediately draws the viewer in within 5s
+      striking cinematic/atmospheric opening that immediately draws the viewer in within 5s.
+      Especially strong if supported by audio narration or text supers.
   1 = Some visual interest but slow, vague, or a purely static atmospheric shot with no
-      clear subject, motion, or sense of intrigue
+      clear subject, motion, or sense of intrigue; OR hook is present but visuals are
+      noticeably dark or low-contrast, reducing mobile impact
   0 = Completely static logo hold, plain text card, or brand name fade-in with zero
       visual engagement — nothing to hold attention
 
@@ -30,9 +98,10 @@ Return JSON with these exact fields:
   score: 0, 1, or 2
   evidence: a JSON array of 1–3 grounded moments, each object having:
     - timestamp: "MM:SS" of the frame you observed (e.g. "00:02")
-    - observation: one sentence describing exactly what is seen at that moment
+    - observation: one sentence describing exactly what is seen at that moment, noting any
+      audio narration or text supers that reinforce the hook if present
     - frame_b64: null (leave null — this field is populated by the system)
-    Score=2 example: [{"timestamp": "00:01", "observation": "Close-up of a rally car powersliding on gravel, dust flying, immediately gripping", "frame_b64": null}]
+    Score=2 example: [{"timestamp": "00:01", "observation": "Close-up of rally car powersliding on gravel, dust flying, immediately gripping; narrator voice-over begins simultaneously", "frame_b64": null}]
     Score=0 example: [{"timestamp": "00:00", "observation": "Static brand logo on black background, no motion or subject", "frame_b64": null}]
   fix: concrete corrective action (required if score < 2, null if score = 2)
 
@@ -45,9 +114,13 @@ Criterion YT-D1 — Direction: Does the ad give the viewer a clear next step or 
 This is a brand awareness ad. Explicit "click here" CTAs are not always expected — a strong branded
 closing that leaves a clear impression also counts.
 
+AUDIO CTA NOTE: A CTA reinforced by both on-screen text AND spoken voice-over is the gold standard.
+Visual-only or audio-only CTAs are weaker. Note in evidence whether the CTA is spoken aloud.
+
 Score using this scale:
   2 = Explicit actionable CTA prominently shown or spoken before the final 5s
-      (e.g. a URL, "shop now", "download the app", "find a dealer", "visit michelin.com")
+      (e.g. a URL, "shop now", "download the app", "find a dealer", "visit michelin.com").
+      Strongest when both visual and audio CTA are present simultaneously.
   1 = Branded closing with logo + tagline/slogan that gives the viewer a clear brand
       impression and implied next step — even without an explicit URL or action verb
       (e.g. logo + "Motion for Life", logo + brand name + product line shown)
@@ -61,14 +134,15 @@ Return JSON with these exact fields:
     Pick the frame where the CTA/logo/tagline is most clearly visible. Do not cite multiple nearby frames.
     The object must have:
     - timestamp: "MM:SS" of the frame you observed (e.g. "00:58")
-    - observation: one sentence describing exactly what is seen or heard at that moment
+    - observation: one sentence describing exactly what is seen or heard at that moment,
+      noting whether the CTA is spoken aloud and/or shown on screen
     - frame_b64: null (leave null — this field is populated by the system)
-    Score=2 example: [{"timestamp": "00:55", "observation": "Large on-screen text 'Visit michelin.com' displayed prominently, spoken aloud by narrator", "frame_b64": null}]
-    Score=1 example: [{"timestamp": "00:58", "observation": "Michelin logo and tagline 'Motion for Life' appear on screen, no URL or action verb", "frame_b64": null}]
+    Score=2 example: [{"timestamp": "00:55", "observation": "Large on-screen text 'Visit michelin.com' displayed prominently and spoken aloud by narrator — full audio + visual CTA", "frame_b64": null}]
+    Score=1 example: [{"timestamp": "00:58", "observation": "Michelin logo and tagline 'Motion for Life' appear on screen, no URL or action verb, not spoken aloud", "frame_b64": null}]
     Score=0 example: [{"timestamp": "01:00", "observation": "Ad cuts to black with no logo, tagline, or brand sign-off of any kind", "frame_b64": null}]
   fix: concrete corrective action (required if score < 2, null if score = 2)
-       Score=1 fix: "Add a URL or explicit action verb to the closing (e.g. 'Visit michelin.com') to upgrade the brand sign-off to a true CTA"
-       Score=0 fix: "Add a branded closing with logo and tagline, or an explicit CTA before the final 5s"
+       Score=1 fix: "Add a URL or explicit action verb to the closing (e.g. 'Visit michelin.com') and reinforce it with voice-over to upgrade to a full audio + visual CTA"
+       Score=0 fix: "Add a branded closing with logo and tagline, or an explicit CTA before the final 5s, spoken aloud and shown on screen"
 
 Always populate evidence. Only describe what is visually or audibly present. Do not invent detail.
 """,
@@ -82,6 +156,8 @@ def get_prompt(criterion_id: str, ad_type: str = "brand") -> str:
 
 
 CRITERION_PROMPTS = {
+    "YT-E1": _YT_E1_PROMPT,
+
     "YT-A1": """You are a video ad creative quality scorer.
 
 Criterion YT-A1 — Attention: Dynamic hook in the first 5 seconds.
@@ -92,6 +168,7 @@ WHAT COUNTS as a dynamic hook (scores 1 or 2):
 - A product actively being used or demonstrated
 - A fast cut sequence or montage with clear motion
 - A person speaking directly to camera
+- Text supers or captions that immediately reinforce the opening message alongside a visual hook
 
 WHAT DOES NOT COUNT (scores 0):
 - A logo appearing, fading in, or animating over a still background
@@ -100,9 +177,18 @@ WHAT DOES NOT COUNT (scores 0):
 - A brand name or slogan appearing on screen with no human or product action
 - Motion within a logo animation — logo motion is NOT a hook
 
+AUDIO & SUPERS NOTE: A hook backed by audio narration or on-screen text supers is stronger
+than a visual-only hook — flag this in evidence when present. Competing audio/visual elements
+that contradict each other are a weakness.
+
+VISUAL QUALITY NOTE: Visuals that appear dark, blurry, or low-contrast weaken attention on
+mobile devices — note this in evidence if observed.
+
 Score using this scale:
-  2 = Clear dynamic hook present (one of the above "counts" examples within the first 3s)
-  1 = Partial hook (some genuine movement but weak, slow, or only appears between 3–5s)
+  2 = Clear dynamic hook present (one of the above "counts" examples within the first 3s).
+      Especially strong if supported by audio narration or text supers.
+  1 = Partial hook (some genuine movement but weak, slow, or only appears between 3–5s);
+      OR hook is present but visuals are noticeably dark or low-contrast, reducing mobile impact
   0 = No hook (static opening, text card, logo hold, or only logo animation)
 
 Return JSON with these exact fields:
@@ -110,9 +196,10 @@ Return JSON with these exact fields:
   score: 0, 1, or 2
   evidence: a JSON array of 1–3 grounded moments, each object having:
     - timestamp: "MM:SS" of the frame you observed (e.g. "00:02")
-    - observation: one sentence describing exactly what is seen at that moment
+    - observation: one sentence describing exactly what is seen at that moment, noting any
+      audio narration or text supers that reinforce the hook if present
     - frame_b64: null (leave null — this field is populated by the system)
-    Score=2 example: [{"timestamp": "00:01", "observation": "Close-up of athlete's face mid-sprint, intense expression, fast cut sequence", "frame_b64": null}]
+    Score=2 example: [{"timestamp": "00:01", "observation": "Close-up of athlete's face mid-sprint, intense expression, fast cut sequence; voice-over begins immediately", "frame_b64": null}]
     Score=0 example: [{"timestamp": "00:00", "observation": "Static logo on white background, no motion", "frame_b64": null}]
   fix: concrete corrective action (required if score < 2, null if score = 2)
 
@@ -121,18 +208,29 @@ Always populate evidence with at least one item. Only describe what is visually 
 
     "YT-B1": """You are a video ad creative quality scorer.
 
-Criterion YT-B1 — Branding: Brand or product is clearly visible and introduced early.
-Strong branding means the brand name, logo, or product appears prominently within the first 5 seconds
-AND recurs consistently throughout — not just bookending the ad (start + end only).
+Criterion YT-B1 — Branding: Brand or product is clearly visible, introduced early, and reinforced
+through multiple assets.
+Strong branding means the brand name, logo, or product appears prominently within the first 5 seconds,
+recurs consistently throughout — not just bookending the ad — AND uses a variety of branding elements.
 
 "Present throughout" means the brand or product appears in at least 3 distinct moments spread across
 the beginning, middle, and end of the video. Two appearances (e.g. only at 0:00 and 0:55) do NOT qualify.
 
+AUDIO REINFORCEMENT NOTE: A spoken brand name, brand jingle, or audio brand cue alongside visual
+branding is stronger than visual-only presence. Note in evidence if the brand name is spoken aloud
+at any point.
+
+BRANDING ASSET VARIETY NOTE: Strong branding draws on multiple assets — logo, product shots,
+brand colors, tagline, audio cue — not just a logo alone. A score of 2 requires at least 2
+distinct branding elements.
+
 Score using this scale:
   2 = Brand/product clearly visible within first 5s AND appears in at least 3 distinct moments
-      across beginning, middle, and end of the ad (not just start + final seconds)
+      across beginning, middle, and end of the ad. Uses at least 2 distinct branding elements
+      (e.g. logo + product shot + tagline). Ideally reinforced by a spoken brand name or audio cue.
   1 = Brand/product appears early (within 5s) but only 1–2 more times after that, OR only
-      bookends the video (intro + final seconds) with no middle appearances
+      bookends the video with no middle appearances, OR relies on a single branding element
+      (logo only) with no audio reinforcement or asset variety
   0 = No clear brand or product visibility, brand only appears in the final seconds, or brand
       is never shown at all
 
@@ -146,11 +244,14 @@ Return JSON with these exact fields:
     If fewer than 3 distinct appearances exist, cite only the moments that are actually present.
     Each object must have:
     - timestamp: "MM:SS" of the frame you observed
-    - observation: one sentence describing exactly what brand/product element is visible
+    - observation: one sentence describing exactly what brand/product element is visible,
+      and note if the brand name is spoken aloud at or near this moment
     - frame_b64: null (leave null — this field is populated by the system)
-    Score=2 example: [{"timestamp": "00:02", "observation": "Brand logo clearly displayed top-left", "frame_b64": null}, {"timestamp": "00:28", "observation": "Product close-up with brand name visible", "frame_b64": null}, {"timestamp": "00:52", "observation": "Logo closing card with brand name", "frame_b64": null}]
-    Score=0 example: [{"timestamp": "00:58", "observation": "Brand logo appears only in the final 2 seconds, invisible throughout the rest", "frame_b64": null}]
-  fix: concrete corrective action (required if score < 2, null if score = 2)
+    Score=2 example: [{"timestamp": "00:02", "observation": "Brand logo clearly displayed top-left alongside product close-up; brand name spoken aloud by narrator", "frame_b64": null}, {"timestamp": "00:28", "observation": "Product in use with brand tagline overlaid on screen", "frame_b64": null}, {"timestamp": "00:52", "observation": "Logo closing card with brand name and tagline", "frame_b64": null}]
+    Score=0 example: [{"timestamp": "00:58", "observation": "Brand logo appears only in the final 2 seconds, invisible throughout the rest; no audio brand mention at any point", "frame_b64": null}]
+  fix: concrete corrective action (required if score < 2, null if score = 2).
+       Always recommend adding an audio brand mention (spoken brand name or jingle) if none is present.
+       If only one branding element type is used, recommend adding variety (e.g. product shot, tagline, brand color palette).
 
 Always populate evidence with at least one item. Only describe what is visually present. Do not invent detail.
 """,
@@ -158,13 +259,29 @@ Always populate evidence with at least one item. Only describe what is visually 
     "YT-C1": """You are a video ad creative quality scorer.
 
 Criterion YT-C1 — Connection: The ad creates an emotional connection with the viewer.
-Strong connection means the ad features relatable human characters, a clear narrative or story arc,
-or evokes an emotion (joy, surprise, aspiration, humour). A pure product demo with no human element
-or story scores low.
+Strong connection means the ad features relatable human characters or a clear narrative, evokes a
+specific named emotion (humor, surprise, intrigue, aspiration, warmth), AND keeps its message
+focused on one core idea. A pure product demo with no human element or story scores low.
+An ad that tries to say too many things at once also scores lower, even if it has human elements.
+
+EMOTIONAL LEVERS: Score 2 requires one or more of these specific levers:
+- Humor (makes you laugh or smile)
+- Surprise (unexpected twist or reveal)
+- Intrigue (mystery, curiosity, tension)
+- Aspiration (makes you want to be/have something)
+- Warmth (emotional connection, family, belonging)
+
+MESSAGE FOCUS: An ad that packs in multiple unrelated messages or product features without a
+unifying story dilutes its emotional impact. A score of 2 requires the message to be clear
+and focused on a single core idea.
 
 Score using this scale:
-  2 = Clear emotional narrative or relatable human story present throughout
-  1 = Some human element or emotional moment but weak or brief (e.g. a person shown but no real story)
+  2 = Clear emotional narrative or relatable human story present throughout, using at least
+      one named emotional lever (humor, surprise, intrigue, aspiration, warmth),
+      AND message stays focused on one core idea
+  1 = Some human element or emotional moment but weak or brief (e.g. a person shown but no
+      real story); OR emotional content is present but message is scattered across too many
+      ideas, diluting impact; OR emotion is generic without a clear named lever
   0 = No human characters, no narrative, pure product/logo showcase with no emotional resonance
 
 Return JSON with these exact fields:
@@ -177,11 +294,16 @@ Return JSON with these exact fields:
       (e.g. a product-only shot, empty landscape, or logo with no people).
     Each object must have:
     - timestamp: "MM:SS" of the frame you observed — must be a real timecode like "00:05", never "N/A"
-    - observation: one sentence describing exactly what is seen at that moment
+    - observation: one sentence describing exactly what is seen at that moment.
+      Name the specific emotional lever used if applicable (e.g. "humor via absurd costume",
+      "surprise reveal as character turns around", "aspiration shot of family on open road").
+      Also note if the message feels focused or scattered.
     - frame_b64: null (leave null — this field is populated by the system)
-    Score=2 example: [{"timestamp": "00:05", "observation": "Family laughing together in car, clear joy and warmth", "frame_b64": null}, {"timestamp": "00:40", "observation": "Child's face lighting up as they arrive at destination, emotional payoff", "frame_b64": null}]
+    Score=2 example: [{"timestamp": "00:05", "observation": "Family laughing together in car — warmth and humor lever; message stays focused on family road trip theme throughout", "frame_b64": null}, {"timestamp": "00:40", "observation": "Child's face lighting up on arrival — emotional payoff reinforcing the single core message", "frame_b64": null}]
     Score=0 example: [{"timestamp": "00:08", "observation": "Product shot of car on empty road, no people or human story present", "frame_b64": null}]
-  fix: concrete corrective action (required if score < 2, null if score = 2)
+  fix: concrete corrective action (required if score < 2, null if score = 2).
+       If no emotional lever: recommend adding a human story or specific emotional technique (humor, surprise, etc.).
+       If message is scattered: recommend cutting to a single core message or unifying theme.
 
 Always populate evidence with real timestamps. Only describe what is visually present. Do not invent detail.
 """,
@@ -189,13 +311,20 @@ Always populate evidence with real timestamps. Only describe what is visually pr
     "YT-D1": """You are a video ad creative quality scorer.
 
 Criterion YT-D1 — Direction: The ad contains a clear call to action (CTA).
-A strong CTA tells the viewer exactly what to do next — visit a website, download an app, buy now, find a dealer.
-It must be prominent (verbal or large on-screen text) and appear before the final 3 seconds.
+A strong CTA tells the viewer exactly what to do next — visit a website, download an app, buy now,
+find a dealer. It must be prominent and appear before the final 3 seconds.
 A logo or brand name alone at the end does NOT count as a CTA.
 
+AUDIO CTA NOTE: The gold standard is a CTA reinforced by BOTH on-screen text AND spoken voice-over.
+A visual-only or audio-only CTA is weaker. Always note in evidence whether the CTA is spoken aloud.
+
 Score using this scale:
-  2 = Clear, prominent CTA present before the final 5s (verbal and/or large on-screen text, e.g. "Visit michelin.com now")
-  1 = CTA present but weak — only appears in the final 3s, is text-only in small print, or is easy to miss
+  2 = Clear, prominent CTA present before the final 5s, reinforced by BOTH on-screen text AND
+      spoken voice-over (e.g. URL shown on screen while narrator says "Visit michelin.com now").
+      A strong visual-only CTA (large text, early, prominent) may still score 2 if audio is absent
+      but the visual execution is exceptional.
+  1 = CTA present but incomplete — visual-only with no voice-over reinforcement, OR audio-only
+      with no on-screen text, OR appears only in the final 3s, OR is in small print / easy to miss
   0 = No CTA anywhere in the ad — ends with logo/brand only or no direction given
 
 Return JSON with these exact fields:
@@ -205,12 +334,16 @@ Return JSON with these exact fields:
     Pick the frame where the CTA/logo is most clearly visible. Do not cite multiple nearby frames.
     The object must have:
     - timestamp: "MM:SS" of the frame you observed
-    - observation: one sentence describing exactly what is seen or heard at that moment
+    - observation: one sentence describing exactly what is seen or heard at that moment.
+      Explicitly state whether the CTA is spoken aloud and/or shown on screen.
     - frame_b64: null (leave null — this field is populated by the system)
-    Score=2 example: [{"timestamp": "00:55", "observation": "Large on-screen text 'Visit michelin.com' spoken aloud, clearly visible", "frame_b64": null}]
-    Score=1 example: [{"timestamp": "00:58", "observation": "Brand logo and tagline appear in final seconds, no URL or action verb", "frame_b64": null}]
+    Score=2 example: [{"timestamp": "00:55", "observation": "Large on-screen URL 'Visit michelin.com' shown prominently while narrator speaks it aloud — full audio + visual CTA", "frame_b64": null}]
+    Score=1 example: [{"timestamp": "00:58", "observation": "Brand logo and tagline appear on screen in final seconds, no URL or action verb, not spoken aloud", "frame_b64": null}]
     Score=0 example: [{"timestamp": "01:00", "observation": "Ad ends with logo only, no URL, no action verb, no direction given", "frame_b64": null}]
-  fix: concrete corrective action (required if score < 2, null if score = 2)
+  fix: concrete corrective action (required if score < 2, null if score = 2).
+       If CTA is visual-only: "Add voice-over to reinforce the CTA — speaking the URL or action aloud significantly improves effectiveness."
+       If CTA appears too late: "Move the CTA earlier (before the final 5s) and add voice-over reinforcement."
+       If no CTA: "Add an explicit CTA (URL, 'shop now', 'download the app') shown on screen and spoken aloud before the final 5s."
 
 Always populate evidence. Only describe what is visually or audibly present. Do not invent detail.
 """,

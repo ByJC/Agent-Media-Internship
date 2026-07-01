@@ -42,10 +42,14 @@ def score_video_ad(video_source: str, ad_type: str = "brand") -> str:
         for ev in dim["evidence"]:
             ev.pop("frame_b64", None)
 
-    safety_result = score_criterion(video, criterion_id="YT-E1", votes=3, ad_type=ad_type)
-    safety_dump = safety_result.model_dump()
-    for ev in safety_dump["evidence"]:
-        ev.pop("frame_b64", None)
+    _SAFETY_CRITERIA = ["YT-E1-CONTENT", "YT-E1-CONTROVERSY", "YT-E1-COMPETITOR", "YT-E1-CLAIMS"]
+    safety_dump = {}
+    for cid in _SAFETY_CRITERIA:
+        r = score_criterion(video, criterion_id=cid, votes=3, ad_type=ad_type)
+        d = r.model_dump()
+        for ev in d["evidence"]:
+            ev.pop("frame_b64", None)
+        safety_dump[cid] = d
     result["brand_safety"] = safety_dump
 
     return json.dumps(result, indent=2)
@@ -115,6 +119,52 @@ async def score_uploaded_video(filename: str, tool_context: ToolContext, ad_type
             pass
 
 
+async def score_multiple_uploaded_videos(
+    filenames: list, tool_context: ToolContext, ad_type: str = "brand"
+) -> str:
+    """Score multiple uploaded videos in parallel.
+
+    Call this when the user's message contains more than one [Uploaded Artifact: "filename"]
+    placeholder. Faster than calling score_uploaded_video repeatedly — all videos are scored
+    simultaneously.
+
+    Args:
+        filenames: List of exact filenames extracted from the [Uploaded Artifact] placeholders.
+        ad_type: "brand" for brand awareness ads (default), "direct_response" for DR ads.
+    """
+    async def _load_and_score(filename: str) -> tuple[str, object]:
+        try:
+            artifact = await tool_context.load_artifact(filename)
+            if artifact is None:
+                return filename, {"error": f"Artifact '{filename}' not found."}
+            if not artifact.inline_data or not artifact.inline_data.data:
+                return filename, {"error": f"Could not read bytes for '{filename}'."}
+
+            video_bytes = artifact.inline_data.data
+            if isinstance(video_bytes, str):
+                import base64 as _b64
+                video_bytes = _b64.b64decode(video_bytes)
+
+            suffix = Path(filename).suffix or ".mp4"
+            with tempfile.NamedTemporaryFile(suffix=suffix, delete=False) as tmp:
+                tmp.write(video_bytes)
+                tmp_path = tmp.name
+
+            try:
+                result_str = await asyncio.to_thread(score_video_ad, tmp_path, ad_type)
+                return filename, json.loads(result_str)
+            finally:
+                try:
+                    os.unlink(tmp_path)
+                except OSError:
+                    pass
+        except Exception as exc:
+            return filename, {"error": str(exc)}
+
+    pairs = await asyncio.gather(*[_load_and_score(f) for f in filenames])
+    return json.dumps({filename: result for filename, result in pairs}, indent=2)
+
+
 root_agent = Agent(
     name="web_search_agent",
     model="gemini-2.5-flash",
@@ -127,10 +177,13 @@ root_agent = Agent(
         "  3. Multiple videos — call score_multiple_videos with the full list. "
         "Always use this when the user provides more than one video source — never call "
         "score_video_ad repeatedly in sequence.\n"
-        "  4. Uploaded/dragged file — when the user's message contains "
-        "[Uploaded Artifact: \"filename\"], extract the filename from that placeholder "
-        "and IMMEDIATELY call score_uploaded_video with that exact filename. "
-        "Always use the filename from the CURRENT message, never from history. "
+        "  4. Uploaded/dragged file(s) — when the user's message contains "
+        "[Uploaded Artifact: \"filename\"] placeholders:\n"
+        "     - ONE placeholder → call score_uploaded_video with that filename.\n"
+        "     - TWO OR MORE placeholders → extract ALL filenames and call "
+        "score_multiple_uploaded_videos with the full list. Never call score_uploaded_video "
+        "repeatedly in sequence.\n"
+        "Always use filenames from the CURRENT message, never from history. "
         "Do NOT call load_artifacts. Do NOT say you cannot process uploaded videos.\n\n"
         "After any tool returns, present results for EACH video in this exact order:\n\n"
         "SECTION 1 — Header\n"
@@ -148,18 +201,23 @@ root_agent = Agent(
         "Write: 'Overall Score: [score]/100 — [band]' using the `score` field from the JSON. "
         "Never add up raw scores yourself.\n\n"
         "SECTION 4 — Brand Safety\n"
-        "Always write this section. Check the `brand_safety` key in the JSON.\n"
-        "If brand_safety.score = 2: Write '### Brand Safety: ✅ No Issues Detected' then one line "
-        "from brand_safety.evidence describing what was checked.\n"
-        "If brand_safety.score = 1: Write '### ⚠️ Brand Safety: Minor Concerns' then list each item "
-        "from brand_safety.evidence as '- [timestamp] [observation]', followed by the fix.\n"
-        "If brand_safety.score = 0: Write '### 🚨 Brand Safety: Violation Detected' then list each item "
-        "from brand_safety.evidence as '- [timestamp] [observation]', followed by the fix.\n\n"
+        "Always write this section. The JSON contains a `brand_safety` object with four keys: "
+        "YT-E1-CONTENT, YT-E1-CONTROVERSY, YT-E1-COMPETITOR, YT-E1-CLAIMS.\n"
+        "Write '### Brand Safety' then a table with one row per dimension:\n"
+        "  | Dimension | Status | Finding |\n"
+        "  |---|---|---|\n"
+        "For each dimension use these status badges:\n"
+        "  score=2 → ✅ Safe | score=1 → ⚠️ Concern | score=0 → 🚨 Violation\n"
+        "Finding column: if score=2 write 'No issues'; if score<2 write the observation from evidence.\n"
+        "After the table, for any dimension with score < 2, write a Fix subsection:\n"
+        "'**[Dimension name] Fix:** [fix text from JSON]'\n"
+        "Derive the overall safety status from the worst score across all 4 dimensions and write "
+        "one summary line: 'Overall: ✅ Fully Safe' / '⚠️ Minor Concerns' / '🚨 Violation Detected'.\n\n"
         "SECTION 5 — Raw JSON\n"
         "Write '### Raw JSON Output' then the full JSON in a ```json code block.\n\n"
         "When multiple videos were scored, repeat Sections 1–5 for each video, separated by a divider (---)."
     ),
-    tools=[score_video_ad, score_multiple_videos, score_uploaded_video, load_artifacts_tool],
+    tools=[score_video_ad, score_multiple_videos, score_uploaded_video, score_multiple_uploaded_videos, load_artifacts_tool],
 )
 
 # App wraps the agent with SaveFilesAsArtifactsPlugin so that when a user

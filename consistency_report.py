@@ -3,10 +3,23 @@ Full consistency report: 5 videos × 3 runs.
 Checks score stability AND evidence stability (same timestamps cited?).
 Outputs terminal summary + report.html
 """
+import time
 from dotenv import load_dotenv
 load_dotenv()
 
 from web_search_agent.video_scorer import ingest_video, score_criterion, aggregate_scores
+
+
+def _score_with_retry(video, criterion_id, votes, ad_type, max_retries=5, delay=30):
+    for attempt in range(max_retries):
+        try:
+            return score_criterion(video, criterion_id=criterion_id, votes=votes, ad_type=ad_type)
+        except Exception as e:
+            if attempt < max_retries - 1:
+                print(f"\n    [API error, retry {attempt+1}/{max_retries-1}, waiting {delay}s...]", end=" ", flush=True)
+                time.sleep(delay)
+            else:
+                raise
 
 URLS = [
     "https://www.youtube.com/watch?v=oQNhp46Y0Fg",
@@ -16,9 +29,12 @@ URLS = [
     "https://www.youtube.com/watch?v=XZerw7F7yl0",
 ]
 
-CRITERIA   = ["YT-A1", "YT-B1", "YT-C1", "YT-D1"]
+CRITERIA   = ["YT-A1", "YT-B1", "YT-C1", "YT-D1",
+              "YT-E1-CONTENT", "YT-E1-CONTROVERSY", "YT-E1-COMPETITOR", "YT-E1-CLAIMS"]
 LABELS     = {"YT-A1": "A-Attention", "YT-B1": "B-Branding",
-              "YT-C1": "C-Connection", "YT-D1": "D-Direction"}
+              "YT-C1": "C-Connection", "YT-D1": "D-Direction",
+              "YT-E1-CONTENT": "E-Content", "YT-E1-CONTROVERSY": "E-Controversy",
+              "YT-E1-COMPETITOR": "E-Competitor", "YT-E1-CLAIMS": "E-Claims"}
 RUNS       = 3
 AD_TYPE    = "brand"
 
@@ -39,16 +55,22 @@ def collect():
         for run in range(1, RUNS + 1):
             print(f"  Run {run}/{RUNS}...", end=" ", flush=True)
             crit_results = [
-                score_criterion(video, criterion_id="YT-A1", votes=3, ad_type=AD_TYPE),
-                score_criterion(video, criterion_id="YT-B1", votes=3, ad_type=AD_TYPE),
-                score_criterion(video, criterion_id="YT-C1", votes=3, ad_type=AD_TYPE),
-                score_criterion(video, criterion_id="YT-D1", votes=3, ad_type=AD_TYPE),
+                _score_with_retry(video, criterion_id="YT-A1", votes=3, ad_type=AD_TYPE),
+                _score_with_retry(video, criterion_id="YT-B1", votes=3, ad_type=AD_TYPE),
+                _score_with_retry(video, criterion_id="YT-C1", votes=3, ad_type=AD_TYPE),
+                _score_with_retry(video, criterion_id="YT-D1", votes=3, ad_type=AD_TYPE),
+            ]
+            safety_results = [
+                _score_with_retry(video, criterion_id="YT-E1-CONTENT",     votes=3, ad_type=AD_TYPE),
+                _score_with_retry(video, criterion_id="YT-E1-CONTROVERSY", votes=3, ad_type=AD_TYPE),
+                _score_with_retry(video, criterion_id="YT-E1-COMPETITOR",  votes=3, ad_type=AD_TYPE),
+                _score_with_retry(video, criterion_id="YT-E1-CLAIMS",      votes=3, ad_type=AD_TYPE),
             ]
             ad_score = aggregate_scores(crit_results, video, source=url, ad_type=AD_TYPE)
             print(f"overall={ad_score.score}")
 
             run_data = {"overall": ad_score.score, "criteria": {}}
-            for r in crit_results:
+            for r in crit_results + safety_results:
                 run_data["criteria"][r.criterion_id] = {
                     "score": r.score,
                     "timestamps": [ev.timestamp for ev in r.evidence],
@@ -174,7 +196,7 @@ def generate_html_report(all_results, output_path="consistency_report.html"):
             if ss: score_stab[cid] += 1
             if es: evid_stab[cid]  += 1
 
-            v_cell = f'<td rowspan="4" class="video-cell">V{v_idx}<div class="video-url">{vd["url"].replace("https://www.youtube.com/watch?v=","")}</div></td>' if first_cid else ""
+            v_cell = f'<td rowspan="8" class="video-cell">V{v_idx}<div class="video-url">{vd["url"].replace("https://www.youtube.com/watch?v=","")}</div></td>' if first_cid else ""
             first_cid = False
 
             main_rows += f"""
@@ -221,7 +243,7 @@ def generate_html_report(all_results, output_path="consistency_report.html"):
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>ABCD Consistency Report</title>
+<title>ABCDE Consistency Report</title>
 <style>
   :root {{
     --ground: #F5F4F0; --surface: #fff; --text: #161514;
@@ -258,7 +280,7 @@ def generate_html_report(all_results, output_path="consistency_report.html"):
 <body>
 <div class="wrap">
 
-  <h1>ABCD Consistency Report</h1>
+  <h1>ABCDE Consistency Report</h1>
   <p class="subtitle">{n} videos × {RUNS} runs — brand rubric — score stability + evidence stability</p>
 
   <h2>Main Results</h2>
